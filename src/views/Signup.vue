@@ -13,17 +13,28 @@
                 <div class="login-box">
                     <h2 style="text-align:center">注册</h2>
                     <form  @submit.prevent="regist" >
-                        <label for="id">账号</label>
-                        <input type="text" id="id" v-model="id" placeholder="请输入账号" required>
-
-                        <label for="name">姓名</label>
-                        <input type="text" id="name" v-model="name" placeholder="请输入姓名" required>
-
-                        <label for="nickName">用户名</label>
-                        <input type="text" id="nickName" v-model="nickName" placeholder="请输入用户名" required>
+                        <label for="name">用户名</label>
+                        <input type="text" id="name" v-model="name" placeholder="请输入用户名（非中文字符）" required>
 
                         <label for="password">密码</label>
                         <input type="password" id="password" v-model="password" placeholder="请输入密码" required>
+
+                        <label for="province">省份</label>
+                        <input type="province" id="province" v-model="province" placeholder="请输入省份信息" required>
+
+                        <label for="city_or_county">城市</label>
+                        <input type="city_or_county" id="city_or_county" v-model="city_or_county" placeholder="请输入城市（如秦皇岛市）名称" required>
+
+                        <label for="distinguish">地区</label>
+                        <input type="distinguish" id="distinguish" v-model="distinguish" placeholder="请输入地区信息（如昌黎县、海港区）名称" required>
+
+                        <label for="community">社区</label>
+                        <input type="community" id="community" v-model="community" placeholder="请输入社区（如燕大小区）名称" required>
+
+                        <label for="email">社区</label>
+                        <input type="email" id="email" v-model="email" placeholder="请输入邮箱" required>
+                        
+                        <p></p>
 
                         <button type="submit" id="submit-btn">确认注册</button>
                     </form>
@@ -46,17 +57,25 @@ export default {
     data: function() {
         return {
             collapsed: false,
-            id: '',
-            password: ''
+            name: '',
+            password: '',
+            province: '',
+            city_or_county: '',
+            distinguish: '',
+            community: '',
+            email: ''
         }
     },
     methods: {
         regist() {
             const data = {
-                id: this.id,
                 name: this.name,
-                nickName: this.nickName,
-                password: this.password
+                password: this.password,
+                province: this.province,
+                city_or_county: this.city_or_county,
+                distinguish: this.distinguish,
+                community: this.community,
+                email: this.email
             };
             axios.post('http://10.136.132.34:9000/Regist', data)
                 .then((response) => {
@@ -128,7 +147,7 @@ body {
 /*设置登录框的样式 */
 .login-box {
     width: 500px;
-    height: 350px;
+    height: 750px;
     background-color: #fff;
     margin: 100px auto;
     border-radius: 10px;
@@ -140,7 +159,13 @@ body {
 
 /*设置输入框样式 */
 input[type=text],
-input[type=password] {
+input[type=password],
+input[type=province],
+input[type=city_or_county],
+input[type=distinguish],
+input[type=community],
+input[type=email]
+{
     width: 100%;
     padding: 12px 20px;
     margin: 8px 0;
