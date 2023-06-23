@@ -30,6 +30,7 @@
                     <el-table-column
                         label="公告栏"
                         prop="time">
+                        
                     </el-table-column>
 
                 </el-table>

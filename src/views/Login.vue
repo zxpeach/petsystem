@@ -13,8 +13,8 @@
                     <h2 style="text-align:center">欢迎登录</h2>
 
                     <form>
-                        <label for="id">账号</label>
-                        <input type="text" id="id" v-model="id" placeholder="请输入账号" />
+                        <label for="account">账号</label>
+                        <input type="text" id="account" v-model="account" placeholder="请输入账号" />
 
                         <label for="password">密码</label>
                         <input type="password" id="password" v-model="password" placeholder="请输入密码"  />
@@ -41,7 +41,7 @@ export default {
     name: "LoginPage",
     data: function() {
         return {
-            id: '',
+            name: '',
             password: '',
             collapsed: false
         }

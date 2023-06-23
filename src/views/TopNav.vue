@@ -58,6 +58,7 @@ export default {
 </script>
 
 <style scoped>
+
 .el-menu-vertical-demo:not(.el-menu--collapse) {
     border: none;
 }
@@ -82,11 +83,13 @@ export default {
     margin-left: 1000px;
     color: aliceblue;
     background-color: #528aff;
+    text-align: end;
 }
 .signupbotton{
     margin-left: 10px;
     color: aliceblue;
     background-color: #528aff;
+    /* text-align: end; */
 }
 .showimg:active {
     border: none;

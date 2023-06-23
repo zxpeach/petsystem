@@ -7,7 +7,16 @@
             <el-header class="main-header">
                 <TopNav></TopNav>
             </el-header>
-            <el-main class="main-center"></el-main>
+            <el-main class="main-center">
+
+
+
+
+
+
+
+                
+            </el-main>
         </el-container>
     </el-container>
 </template>

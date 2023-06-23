@@ -1,7 +1,6 @@
 <template>
     <el-menu default-active="2" class="el-menu-vertical-demo" background-color="#528aff" text-color="#fff"
              active-text-color="#ffd04b" :collapse="collapsed" :collapse-transition="bb">
-        <!-- <el-menu default-active="2" :collapse="collapsed" collapse-transition router :default-active="$route.path" unique-opened class="el-menu-vertical-demo" background-color="#334157" text-color="#fff" active-text-color="#ffd04b"> -->
         <div class="logobox">
             <img class="logoimg" src="../assets/logo.png" alt="">
         </div>
@@ -15,7 +14,8 @@
                 <el-menu-item index="1-1">宠物列表</el-menu-item>
                 <el-menu-item index="1-2">上传宠物</el-menu-item>
             </el-menu-item-group>
-            <el-menu-item-group title="领养申请记录">
+            <el-menu-item-group>
+                <template slot="title">申请记录</template>
                 <el-menu-item index="1-3">我的申请</el-menu-item>
                 <el-menu-item index="1-4">他人申请</el-menu-item>
             </el-menu-item-group>
@@ -98,5 +98,13 @@ export default {
 
 .logoimg {
     height: 40px;
+}
+
+.TTTITLE
+{
+    height: 40px;
+    line-height: 50px;
+    color: #70f1b5;
+    font-size: 25px;
 }
 </style>

@@ -14,6 +14,16 @@ const routes = [
     name: 'Login',
     component:()=>import('../views/Login.vue'),
   },
+  {
+    path: '/Signup',
+    name: 'Signup',
+    component:()=>import('../views/Signup.vue'),
+  },
+  {
+    path: '/Userpage',
+    name: 'Userpage',
+    component:()=>import('../views/Userpage.vue'),
+  },
 ]
 
 const router = new VueRouter({
