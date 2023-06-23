@@ -9,7 +9,7 @@
             </el-header>
             <el-main class="main-center">
 
-                <body>
+
                 <div class="login-box">
                     <h2 style="text-align:center">注册</h2>
                     <form  @submit.prevent="regist" >
@@ -43,7 +43,7 @@
                         <button type="submit" id="submit-btn">确认注册</button>
                     </form>
                 </div>
-                </body>
+
 
             </el-main>
         </el-container>

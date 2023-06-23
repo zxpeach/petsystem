@@ -3,12 +3,12 @@
         <el-button class="buttonimg">
 
         </el-button>
-        <el-button class="loginbotton" v-if="this.IsLogin === true">登录</el-button>
-        <el-button class="signupbotton" v-if="this.IsLogin === true">注册</el-button>
+        <el-button class="loginbotton" v-if="this.IsLogin === true" v-on:click="login">登录</el-button>
+        <el-button class="signupbotton" v-if="this.IsLogin === true" v-on:click="signup">注册</el-button>
         <el-submenu index="2" class="submenu">
             <template slot="title"><span id="username" class="name"></span></template>
             <el-menu-item index="2-1">私信</el-menu-item>
-            <el-menu-item index="2-2">个人中心</el-menu-item>
+            <el-menu-item index="2-2" v-on:click="userpage">个人中心</el-menu-item>
             <el-menu-item v-on:click="idquit" index="2-3">退出</el-menu-item>
         </el-submenu>
     </el-menu>
@@ -51,6 +51,15 @@ export default {
             localStorage.removeItem('token');
             alert('退出成功');
             location.reload();
+        },
+        login(){
+            this.$router.push({name:'Login'});
+        },
+        signup(){
+            this.$router.push({name:'Signup'});
+        },
+        userpage(){
+            this.$router.push({name:'Userpage'});
         }
     }
 
