@@ -91,12 +91,12 @@ export default {
     },
     mounted() {
         const token = localStorage.getItem('token');
-        const data = {
-            id: this.id
-        };
-        axios.post('http://10.136.132.34:9000/MyPet', data,{
-            headers: {
-                'token': token
+        const payload = token.split('.')[1];
+        const decodedPayload = atob(payload);
+        const dat = JSON.parse(decodedPayload);
+        axios.get('http://10.136.132.34:9000/MyPet',{
+            params: {
+                'id': dat.id
             }
         })
             .then((response) => {

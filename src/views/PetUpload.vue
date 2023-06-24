@@ -1,13 +1,13 @@
 <template>
-    <el-container className="main-container">
+    <el-container class="main-container">
         <el-aside v-bind:class="asideClass">
             <LeftAside></LeftAside>
         </el-aside>
         <el-container>
-            <el-header className="main-header">
+            <el-header class="main-header">
                 <TopNav></TopNav>
             </el-header>
-            <el-main className="main-center">
+            <el-main class="main-center">
 
                 <div class="login-box">
                     <h2 style="text-align:center">上传宠物</h2>
