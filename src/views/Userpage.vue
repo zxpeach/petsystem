@@ -51,6 +51,8 @@
 import TopNav from '@/views/TopNav.vue'
 import LeftAside from '@/views/LeftAside.vue'
 import axios from "axios";
+axios.defaults.headers.common['Authorization'] = 'Bearer ' + jwtToken;
+
 // 导出模块
 export default {
     name: "UserPage",
@@ -73,7 +75,7 @@ export default {
                 id: this.id
                 // 以用户id进行查找
             };
-            axios.post('http://10.136.132.34:9000/login', data)
+            axios.get('http://10.136.132.34:9000/login', data)
             .then((response) => {
                 const now=response.data;
                 this.id=now.id;
