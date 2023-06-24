@@ -24,6 +24,11 @@ const routes = [
     name: 'Userpage',
     component:()=>import('../views/Userpage.vue'),
   },
+  {
+    path: '/Createorganization',
+    name: 'Createorganization',
+    component:()=>import('../views/Createorganization.vue'),
+  },
 ]
 
 const router = new VueRouter({
