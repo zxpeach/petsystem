@@ -41,7 +41,7 @@ export default {
     name: "LoginPage",
     data: function() {
         return {
-            name: '',
+            account: '',
             password: '',
             collapsed: false
         }
@@ -49,10 +49,10 @@ export default {
     methods: {
         login() {
             const data = {
-                id: this.id,
+                account: this.account,
                 password: this.password
             };
-            axios.post('http://10.136.132.34:9000/login', data)
+            axios.post('http://10.136.132.34:9000/Login', data)
                 .then((response) => {
                     const { code, msg, data } = response.data;
                     if (code === 1) {

@@ -62,7 +62,7 @@ export default {
         return {
             collapsed: false,
             name: '',
-            id:'',
+            account:'',
             password: '',
             province: '',
             city_or_county: '',
@@ -74,7 +74,7 @@ export default {
     methods: {
         regist() {
             const data = {
-                id: this.id,
+                account: this.account,
                 name: this.name,
                 password: this.password,
                 province: this.province,

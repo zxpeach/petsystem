@@ -3,8 +3,8 @@
         <el-button class="buttonimg">
 
         </el-button>
-        <el-button class="loginbotton" v-if="this.IsLogin === true" v-on:click="login">登录</el-button>
-        <el-button class="signupbotton" v-if="this.IsLogin === true" v-on:click="signup">注册</el-button>
+        <el-button class="loginbotton" v-if="this.IsLogin === false" v-on:click="login">登录</el-button>
+        <el-button class="signupbotton" v-if="this.IsLogin === false" v-on:click="signup">注册</el-button>
         <el-submenu index="2" class="submenu">
             <template slot="title"><span id="username" class="name"></span></template>
             <el-menu-item index="2-1">私信</el-menu-item>
@@ -19,7 +19,7 @@ export default {
     name: "TopNav",
     data: function() {
         return {
-            IsLogin:true,
+            IsLogin:false,
             collapsed: false,
             //imgshow: require("../assets/img/show.png"),
             //imgsq: require("../assets/img/sq.png")
@@ -28,13 +28,13 @@ export default {
     mounted() {
 
         const token = localStorage.getItem('token');
-        if(!token){usernameElement.textContent="未登录"; this.IsLogin=false;}
         const payload = token.split('.')[1];
         const decodedPayload = atob(payload);
         const data = JSON.parse(decodedPayload);
         const usernameElement = document.getElementById('username');
-        usernameElement.textContent = data.id;
-
+        usernameElement.textContent = data.name;
+        if(data.id) this.IsLogin=true;
+        else usernameElement.textContent="未登录";
 
     },
     methods: {

@@ -18,8 +18,6 @@
                     <div>    {{ name }}</div>
                     <label for="id" class="char_lt">账号 :</label>
                     <div>    {{ id }}</div>
-                    <label for="password" class="char_lt">密码 :</label>
-                    <div>    {{ password }}</div>
                     <label for="province" class="char_lt">省份:</label>
                     <div>    {{ province }}</div>
                     <label for="city_or_county" class="char_lt">城市 :</label>
@@ -61,13 +59,16 @@ export default {
     },
     mounted() {
         const token = localStorage.getItem('token');
+        const payload = token.split('.')[1];
+        const decodedPayload = atob(payload);
+        const dat = JSON.parse(decodedPayload);
         axios.get('http://10.136.132.34:9000/getPerson',{
-            headers: {
-                'token': token
+            params: {
+                'id': dat.id
             }
         })
             .then((response) => {
-                const now=response.data;
+                const now=response.data.data;
                 this.id=now.id;
                 this.password=now.password;
                 this.name=now.name;

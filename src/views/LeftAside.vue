@@ -11,13 +11,13 @@
             </template>
             <el-menu-item-group>
                 <template slot="title">我的宠物</template>
-                <el-menu-item index="1-1">宠物列表</el-menu-item>
-                <el-menu-item index="1-2">上传宠物</el-menu-item>
+                <el-menu-item index="1-1" v-on:click="petlist">宠物列表</el-menu-item>
+                <el-menu-item index="1-2" v-on:click="petupload">上传宠物</el-menu-item>
             </el-menu-item-group>
             <el-menu-item-group>
                 <template slot="title">申请记录</template>
-                <el-menu-item index="1-3">我的申请</el-menu-item>
-                <el-menu-item index="1-4">他人申请</el-menu-item>
+                <el-menu-item index="1-3" v-on:click="myapply">我的申请</el-menu-item>
+                <el-menu-item index="1-4" v-on:click="otherapply">他人申请</el-menu-item>
             </el-menu-item-group>
         </el-submenu>
         <el-submenu index="2">
@@ -43,6 +43,10 @@
             <i class="el-icon-document"></i>
             <span slot="title">我的消息</span>
         </el-menu-item>
+        <el-menu-item index="5" v-on:click="mainpage">
+            <i class="el-icon-menu" v-on:click="mainpage"></i>
+            <span slot="title" v-on:click="mainpage">首页</span>
+        </el-menu-item>
     </el-menu>
 </template>
 <script>
@@ -54,7 +58,23 @@ export default {
             bb: true
         }
     },
-    methods: {},
+    methods: {
+        mainpage(){
+            this.$router.push({name:'MainPage'});
+        },
+        petlist(){
+            this.$router.push({name:'PetList'});
+        },
+        petupload(){
+            this.$router.push({name:'PetUpload'});
+        },
+        myapply(){
+            this.$router.push({name:'MyApply'});
+        },
+        otherapply(){
+            this.$router.push({name:'OtherApply'});
+        }
+    },
     created: function() { //钩子函数
         this.$root.Bus.$on("Handle", value => {
             this.collapsed = value;
