@@ -62,7 +62,8 @@ export default {
             id: '',
             address: '',
             email: '',
-            slogan: ''
+            slogan: '',
+            creator: ''//直接调用登录数据，将创建者设置为管理员
         }
     },
     methods: {
@@ -72,7 +73,8 @@ export default {
                 name: this.name,
                 address: this.address,
                 email: this.email,
-                slogan: this.slogan
+                slogan: this.slogan,
+                creator: this.creator
             };
             axios.post('http://10.136.132.34:9000/CreateOrganization', data)
                 .then((response) => {
