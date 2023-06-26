@@ -47,6 +47,11 @@ const routes = [
     name: 'OtherApply',
     component:()=>import('../views/OtherApply.vue'),
   },
+  {
+    path: '/ChatPage',
+    name: 'ChatPage',
+    component:()=>import('../views/ChatPage.vue'),
+  },
 ]
 
 const router = new VueRouter({

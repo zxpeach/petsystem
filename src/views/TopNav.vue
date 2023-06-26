@@ -7,7 +7,7 @@
         <el-button class="signupbotton" v-if="this.IsLogin === false" v-on:click="signup">注册</el-button>
         <el-submenu index="2" class="submenu">
             <template slot="title"><span id="username" class="name"></span></template>
-            <el-menu-item index="2-1">私信</el-menu-item>
+            <el-menu-item index="2-1" v-on:click="chatpage">私信</el-menu-item>
             <el-menu-item index="2-2" v-on:click="userpage">个人中心</el-menu-item>
             <el-menu-item v-on:click="idquit" index="2-3">退出</el-menu-item>
         </el-submenu>
@@ -60,6 +60,9 @@ export default {
         },
         userpage(){
             this.$router.push({name:'Userpage'});
+        },
+        chatpage(){
+            this.$router.push({name:'ChatPage'});
         }
     }
 

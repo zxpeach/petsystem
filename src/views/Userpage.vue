@@ -12,22 +12,33 @@
                 <el-card class="box-card">
                     <div slot="header" class="clearfix">
                         <span>个人信息</span>
-                        <el-button style="float: right; padding: 3px 0" type="text">修改信息</el-button>
+                        <el-button style="float: right; padding: 3px 0" type="text" v-on:click="updateprofile">修改信息</el-button>
                     </div>
                     <label for="name" class="char_lt">用户名:</label>
-                    <div>    {{ name }}</div>
+                    <el-input type="text" id="name" v-model="name" required></el-input>
+                    <br>
                     <label for="id" class="char_lt">账号 :</label>
-                    <div>    {{ id }}</div>
+                    <el-input type="text" id="id" v-model="id" disabled></el-input>
                     <label for="province" class="char_lt">省份:</label>
-                    <div>    {{ province }}</div>
+                    <el-input type="text" id="province" v-model="province"></el-input>
+                    <br>
                     <label for="city_or_county" class="char_lt">城市 :</label>
-                    <div>    {{ city_or_county }}</div>
+                    <el-input type="text" id="city_or_county" v-model="city_or_county"></el-input>
+                    <br>
                     <label for="distinguish" class="char_lt">下辖地区 : </label>
-                    <div>    {{ distinguish }}</div>
+                    <el-input type="text" id="distinguish" v-model="distinguish"></el-input>
+                    <br>
                     <label for="community" class="char_lt">社区 :</label>
-                    <div>    {{ community }}</div>
+                    <el-input type="text" id="community" v-model="community"></el-input>
+                    <br>
                     <label for="email" class="char_lt">邮箱 :</label>
-                    <div>    {{ email }}</div>
+                    <el-input type="text" id="email" v-model="email"></el-input>
+                    <br>
+                    <label for="oldpassword" class="char_lt">旧密码 :</label>
+                    <el-input type="text" id="odlpassword" v-model="oldpassword"></el-input>
+                    <br>
+                    <label for="newpassword" class="char_lt">新密码 :</label>
+                    <el-input type="text" id="newpassword" v-model="newpassword"></el-input>
                 </el-card>
 
                 
@@ -46,6 +57,7 @@ export default {
     name: "UserPage",
     data: function() {
         return {
+
             collapsed: false,
             id: '',
             password:'',
@@ -54,7 +66,9 @@ export default {
             city_or_county: '',
             distinguish: '',
             community: '',
-            email: ''
+            email: '',
+            oldpassword: '',
+            newpassword: ''
         }
     },
     mounted() {
@@ -85,7 +99,32 @@ export default {
             });
     },
     methods: {
-
+        updateprofile(){
+            const data = {
+                name: this.name,
+                oldPassword: this.oldpassword,
+                newPassword: this.newpassword,
+                province: this.province,
+                city_or_county: this.city_or_county,
+                distinguish: this.distinguish,
+                community: this.community,
+                email: this.email
+            };
+            axios.post('http://10.136.132.34:9000/updateProfile', data)
+                .then((response) => {
+                    const { code } = response.data;
+                    if (code===1) {
+                        alert('修改成功');
+                        this.$router.push('/login');
+                    } else {
+                        alert('修改失败');
+                    }
+                })
+                .catch((error) => {
+                    console.error(error);
+                    alert('修改失败：' + error.message);
+                });
+        }
     },
     computed: { //计算属性
         asideClass: function() { //如果collapsed属性为true就展开不样式 反之就展开样式
