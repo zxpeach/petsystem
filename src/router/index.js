@@ -52,6 +52,16 @@ const routes = [
     name: 'ChatPage',
     component:()=>import('../views/ChatPage.vue'),
   },
+  {
+    path: '/Creatorganization',
+    name: 'Creatorganization',
+    component:()=>import('../views/Createorganization.vue'),
+  },
+  {
+    path: '/Organize',
+    name: 'Organize',
+    component:()=>import('../views/Organize.vue'),
+  },
 ]
 
 const router = new VueRouter({

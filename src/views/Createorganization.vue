@@ -160,7 +160,11 @@ input[type=email]
     box-sizing: border-box;
     border-radius: 4px;
 }
-
+.box-card {
+    margin-top: 60px;
+    margin-left: 150px;
+    width: 900px;
+}
 button {
     background-color: aliceblue;
     color: #528aff;

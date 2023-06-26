@@ -27,8 +27,8 @@
             </template>
             <el-menu-item-group>
                 <template slot="title">我的组织</template>
-                <el-menu-item index="2-1">组织列表</el-menu-item>
-                <el-menu-item index="2-2">创建组织</el-menu-item>
+                <el-menu-item index="2-1" v-on:click="org">组织列表</el-menu-item>
+                <el-menu-item index="2-2" v-on:click="creatorg">创建组织</el-menu-item>
             </el-menu-item-group>
             <el-menu-item-group title="申请记录">
                 <el-menu-item index="2-3">我的申请</el-menu-item>
@@ -73,7 +73,14 @@ export default {
         },
         otherapply(){
             this.$router.push({name:'OtherApply'});
+        },
+        creatorg(){
+            this.$router.push({name:'Creatorganization'});
+        },
+        org(){
+            this.$router.push({name:'Organize'});
         }
+
     },
     created: function() { //钩子函数
         this.$root.Bus.$on("Handle", value => {
