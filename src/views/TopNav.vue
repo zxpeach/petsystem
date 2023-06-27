@@ -59,6 +59,7 @@ export default {
             this.$router.push({name:'Signup'});
         },
         userpage(){
+            localStorage.setItem('sto_id', '');
             this.$router.push({name:'Userpage'});
         },
         chatpage(){

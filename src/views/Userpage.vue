@@ -9,9 +9,12 @@
             </el-header>
             <el-main class="main-center">
 
+                <div class="container">
                 <el-card class="box-card">
                     <div slot="header" class="clearfix">
                         <span>个人信息</span>
+                        <el-button style=" margin-left : 10px;float: right; padding: 3px 0" type="text" v-if="this.is_me === false&& this.attentioned === true" v-on:click="unattention">取消关注</el-button>
+                        <el-button style=" margin-left : 10px;float: right; padding: 3px 0" type="text" v-if="this.is_me === false&& this.attentioned === false" v-on:click="attention">关注</el-button>
                         <el-button style="float: right; padding: 3px 0" type="text" v-on:click="updateprofile">修改信息</el-button>
                     </div>
                     <label for="name" class="char_lt">用户名:</label>
@@ -41,6 +44,27 @@
                     <el-input type="text" id="newpassword" v-model="newpassword"></el-input>
                 </el-card>
 
+                    <el-card class="box-card2">
+                        <div slot="header" class="clearfix">
+                            <span>关注列表</span>
+                        </div>
+                        <div class="chat-container" ref="chatContainer">
+                            <div class="chat-box" ref="chatBox">
+                                <el-scrollbar ref="scrollbar" wrap-class="scrollbar-wrap">
+                                    <ul class="message-list" ref="messageList">
+
+                                        <li v-for="(attention,index) in attentionlist" :key="index" @click="gouser(attention.id)" >
+                                            <span class="author">{{ attention.id }}</span>
+                                        </li>
+                                    </ul>
+                                </el-scrollbar>
+                            </div>
+
+                        </div>
+
+                    </el-card>
+
+                </div>
                 
             </el-main>
         </el-container>
@@ -57,7 +81,8 @@ export default {
     name: "UserPage",
     data: function() {
         return {
-
+            attentioned :false,
+            is_me :false,
             collapsed: false,
             id: '',
             password:'',
@@ -68,7 +93,8 @@ export default {
             community: '',
             email: '',
             oldpassword: '',
-            newpassword: ''
+            newpassword: '',
+            attentionlist: [],
         }
     },
     mounted() {
@@ -76,14 +102,19 @@ export default {
         const payload = token.split('.')[1];
         const decodedPayload = atob(payload);
         const dat = JSON.parse(decodedPayload);
+        var to_id = dat.id;
+        const sto_id = localStorage.getItem('sto_id');
+        if(sto_id)to_id = sto_id;
+        //获得个人信息
         axios.get('http://10.136.132.34:9000/getPerson',{
             params: {
-                'id': dat.id
+                'id': to_id
             }
         })
             .then((response) => {
                 const now=response.data.data;
                 this.id=now.id;
+                if(dat.id == now.id)this.is_me = true;
                 this.password=now.password;
                 this.name=now.name;
                 this.province=now.province;
@@ -97,6 +128,41 @@ export default {
                 console.error(error);
                 alert('无法调取信息：' + error.message);
             });
+        //获得关注列表
+        axios.get('http://10.136.132.34:9000/MyAttention',{
+            params: {
+                'id': to_id
+            }
+        })
+            .then((response) => {
+                const now=response.data.data;
+                this.attentionlist = now;
+                //得到信息后复制
+            })
+            .catch((error) => {
+                console.error(error);
+                alert('无法调取信息：' + error.message);
+            });
+        //看是否关注
+        if(this.is_me === false){
+            const data = {
+                id: this.id,
+            };
+            const token = localStorage.getItem('token');
+            axios.post('http://10.136.132.34:9000/CheckAttention',data,{
+                headers: {
+                    'token': token
+                }
+            })
+                .then((response) => {
+                    const now=response.data.data;
+                    this.attentioned = now;
+                })
+                .catch((error) => {
+                    console.error(error);
+                    alert('无法调取信息：' + error.message);
+                });
+        }
     },
     methods: {
         updateprofile(){
@@ -124,6 +190,58 @@ export default {
                     console.error(error);
                     alert('修改失败：' + error.message);
                 });
+        },
+        attention(){//关注
+            const data = {
+                id: this.id,
+            };
+            const token = localStorage.getItem('token');
+            axios.post('http://10.136.132.34:9000/LikePerson', data,{
+                headers: {
+                    'token': token
+                }
+            })
+                .then((response) => {
+                    const { code } = response.data;
+                    if (code===1) {
+                        alert('成功');
+                        location.reload();
+                    } else {
+                        alert('失败');
+                    }
+                })
+                .catch((error) => {
+                    console.error(error);
+                    alert('失败：' + error.message);
+                });
+        },
+        unattention(){
+            const data = {
+                id: this.id,
+            };
+            const token = localStorage.getItem('token');
+            axios.post('http://10.136.132.34:9000/UnLikePerson', data,{
+                headers: {
+                    'token': token
+                }
+            })
+                .then((response) => {
+                    const { code } = response.data;
+                    if (code===1) {
+                        alert('成功');
+                        location.reload();
+                    } else {
+                        alert('失败');
+                    }
+                })
+                .catch((error) => {
+                    console.error(error);
+                    alert('失败：' + error.message);
+                });
+        },
+        gouser(uid){
+            localStorage.setItem('sto_id', uid);
+            location.reload();
         }
     },
     computed: { //计算属性
@@ -151,7 +269,16 @@ export default {
 .item {
     margin-bottom: 18px;
 }
+.box-card2 {
+    font-family: -apple-system, BlinkMacSystemFont, "San Francisco", "Helvetica Neue", "Noto Sans", "Noto Sans CJK SC", "Noto Sans CJK", "Source Han Sans", "PingFang SC", "Segoe UI", "Microsoft YaHei", sans-serif;
+    font-size: 16px;
+    line-height: 1.5;
+    color: rgba(0, 0, 0, .75);
+    margin-top: 60px;
+    margin-left: 3px;
+    width: 300px;
 
+}
 .clearfix:before,
 .clearfix:after {
     display: table;
@@ -160,11 +287,13 @@ export default {
 .clearfix:after {
     clear: both
 }
-
+.author {
+    font-weight: bold;
+}
 .box-card {
     margin-top: 60px;
     margin-left: 150px;
-    width: 900px;
+    width: 600px;
 }
 .user-box {
     width: 700px;
@@ -177,7 +306,13 @@ export default {
     color: aliceblue;
     background-color: #9a52ff;
 }
-
+.chat-box {
+    overflow-y: auto;
+    flex: 1;
+    padding: 5px;
+    border: 1px solid #ccc;
+    height: 700px;
+}
 /* “邮箱”“省份”等相关标题的字体 */
 .char_lt
 {
@@ -209,7 +344,9 @@ export default {
     background-color: #ff695f;
     margin: 0px;
 }
-
+.container {
+    display: flex;
+}
 .main-header,
 .main-center {
     padding: 0px;
