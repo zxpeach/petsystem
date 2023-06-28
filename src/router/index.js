@@ -67,6 +67,21 @@ const routes = [
     name: 'UploadPost',
     component:()=>import('../views/UploadPost.vue'),
   },
+  {
+    path: '/PostPage',
+    name: 'PostPage',
+    component:()=>import('../views/PostPage.vue'),
+  },
+  {
+    path: '/MyPost',
+    name: 'MyPost',
+    component:()=>import('../views/MyPost.vue'),
+  },
+  {
+    path: '/OtherApplyPet',
+    name: 'OtherApplyPet',
+    component:()=>import('../views/OtherApplyPet.vue'),
+  },
 ]
 
 const router = new VueRouter({

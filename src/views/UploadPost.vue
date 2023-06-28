@@ -23,21 +23,25 @@
                         <label for="name" class="char_lt">标题</label>
                         <input type="text" id="name" v-model="name" placeholder="请输入标题" required>
 
-                        <label for="id" class="char-lt"> 正文</label>
+                        <label for="id" class="char_lt"> 正文</label>
                         <textarea class="char" v-model="text" placeholder="请输入正文" required></textarea>
 
-                        <label for="png">图片</label>
+                        <label for="id" class="char_lt"> 有关宠物ID</label>
+                        <input type="text" v-model="pet_id" placeholder="请输入宠物ID (请在宠物列表查看)">
+
+                        <label for="png" class="char_lt">图片</label>
                         <el-upload
                             class="upload-demo"
                             :on-preview="handlePreview"
+                            action="http://10.136.133.87:9000/image/Upload"
                             :on-remove="handleRemove"
                             :before-remove="beforeRemove"
                             multiple
                             :limit="6"
                             :on-exceed="handleExceed"
-                            :file-list="fileList">
+                            :file-list="fileList"
+                            :on-success="get_id">
                             <el-button size="small" type="primary">点击选择图片</el-button>
-                            <div slot="tip" class="el-upload__tip">只能上传jpg/png文件，且不超过500kb</div>
                         </el-upload>
 
 
@@ -65,15 +69,22 @@ export default {
     name: "MainPage",
     data: function() {
         return {
+            pet_id:'',
+            tot: 0,
             currentTime:'',
             name:'',
             text:'',
             fileList: [],
             idList:[],
-            collapsed: false
+            collapsed: false,
+            picture_id:'',
         }
     },
     methods: {
+        get_id(res) {
+            if(this.tot === 0){this.tot++; this.picture_id = res.data;}
+            else this.idList.push({pic_id: res.data});
+        },
         handleRemove(file, fileList) {
             console.log(file, fileList);
         },
@@ -87,30 +98,14 @@ export default {
             return this.$confirm(`确定移除 ${ file.name }？`);
         },
         uploadpost() {
-            for (let i = 0; i < this.fileList.length; i++) {
-
-                const formData = new FormData();
-                formData.append('file', this.items[i]);
-                axios.post('http://10.136.133.87:9000/image/Upload', formData)
-                    .then((response) => {
-                        const {code, data} = response.data;
-                        if (code === 1) {
-                            this.idList.push({pic_id: data.id });
-                        }
-                    })
-                    .catch((error) => {
-                        console.error(error);
-                        alert('失败：' + error.message);
-                    });
-
-            }
             const now = new Date();
             this.currentTime = now.toLocaleTimeString();
             const data ={
                 name: this.name,
-                time: this.currentTime,
                 text: this.text,
+                picture_id: this.picture_id,
                 Array: this.idList,
+                pet_id: Number(this.pet_id),
             }
             const token = localStorage.getItem('token');
             axios.post('http://10.136.133.87:9000/uploadPost', data, {
@@ -122,6 +117,7 @@ export default {
                     const {code} = response.data;
                     if (code === 1) {
                         alert("发布成功");
+                        this.$router.push({name:'MainPage'});
                     }
                     else{
                         alert('发布失败');

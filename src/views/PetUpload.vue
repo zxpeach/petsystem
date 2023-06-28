@@ -28,15 +28,14 @@
                         <label for="petpng">宠物照片</label>
                         <el-upload
                             class="upload-demo"
+                            ref="upload"
+                            action="http://10.136.133.87:9000/image/Upload"
                             :on-preview="handlePreview"
                             :on-remove="handleRemove"
-                            :before-remove="beforeRemove"
-                            multiple
-                            :limit="1"
-                            :on-exceed="handleExceed"
-                            :file-list="fileList">
-                            <el-button size="small" type="primary">点击选择图片</el-button>
-                            <div slot="tip" class="el-upload__tip">只能上传jpg/png文件，且不超过500kb</div>
+                            :file-list="fileList"
+
+                            :on-success="get_id">
+                            <el-button slot="trigger" size="small" type="primary">选取文件</el-button>
                         </el-upload>
 
                         <p></p>
@@ -72,6 +71,9 @@ export default {
         }
     },
     methods: {
+        get_id(res) {
+            this.idList.push(res.data);
+        },
         handleRemove(file, fileList) {
             console.log(file, fileList);
         },
@@ -85,28 +87,11 @@ export default {
             return this.$confirm(`确定移除 ${ file.name }？`);
         },
         petupload() {
-            for (let i = 0; i < this.fileList.length; i++) {
-
-                const formData = new FormData();
-                formData.append('file', this.items[i]);
-                axios.post('http://10.136.133.87:9000/image/Upload', formData)
-                    .then((response) => {
-                        const {code, data} = response.data;
-                        if (code === 1) {
-                            this.idList.push({pic_id: data.id });
-                        }
-                    })
-                    .catch((error) => {
-                        console.error(error);
-                        alert('失败：' + error.message);
-                    });
-
-            }
             const data ={
                 name: this.name,
                 breeds: this.breeds,
                 health: this.health,
-                Array: this.idList,
+                picture_id: this.idList[0],
                 notes: this.notes,
             }
             const token = localStorage.getItem('token');

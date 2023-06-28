@@ -39,8 +39,8 @@
                 <el-menu-item index="3-4">管理申请</el-menu-item>
             </el-menu-item-group>
         </el-submenu>
-        <el-menu-item index="4">
-            <i class="el-icon-document"></i>
+        <el-menu-item index="4" v-on:click="mypost">
+            <i class="el-icon-document" ></i>
             <span slot="title">我的帖子</span>
         </el-menu-item>
         <el-menu-item index="5" v-on:click="uploadpost">
@@ -83,6 +83,9 @@ export default {
         },
         uploadpost(){
             this.$router.push({name:'UploadPost'});
+        },
+        mypost(){
+            this.$router.push({name:'MyPost'});
         }
 
     },

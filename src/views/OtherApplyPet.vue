@@ -70,10 +70,11 @@ export default {
     },
     mounted() {
         const token = localStorage.getItem('token');
-        const data ={
 
-        }
-        axios.post('http://10.136.133.87:9000/getAllAdoptApplication',data,{
+        const data = {
+            id: Number(localStorage.getItem('to_pet'))
+        };
+        axios.post('http://10.136.133.87:9000/getAdoptApplication', data,{
             headers: {
                 'token': token
             }

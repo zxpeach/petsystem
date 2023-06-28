@@ -9,26 +9,15 @@
             </el-header>
             <el-main class="main-center">
 
-                <div style="width: 1000px; margin-left: 100px; margin-top: 40px;">
-                    <span class="demonstration"></span>
-                    <el-carousel :interval="4000" type="card" height="300px">
-                        <el-carousel-item v-for="(png,index) in pngList" :key="index">
-
-                            <img :src = "png" alt="Image" class="logoimg"/>
-
-                        </el-carousel-item>
-                    </el-carousel>
-                </div>
-
 
                 <el-row :gutter="10">
                     <el-page-header @back="goBack" content="帖子列表" style="margin-left: 60px; margin-top: 50px;">
                     </el-page-header>
                     <el-col :span="5" v-for="(posts, index) in postList" :key="index" :offset="index > 0 ? 0 : 0">
                         <el-card :body-style="{ padding: '0px' }" style="width: 250px; margin-top: 50px; margin-left: 60px;">
-                            <img :src = "posts.picture_id" alt="Image" class="image" v-on:click="gopost(posts.id)"/>
+                            <img :src = "posts.pic_id" alt="Image" class="image" v-on:click="gopost(posts.post_id)"/>
                             <div style="padding: 14px;">
-                                <span v-on:click="gopost(posts.id)">{{posts.name }}</span>
+                                <span v-on:click="gopost(posts.post_id)">{{posts.name }}</span>
                                 <div class="bottom clearfix">
                                     <span v-on:click="gouser(posts.person_id)" class="menu-item">{{ posts.person_id }}</span>
                                 </div>
@@ -56,23 +45,28 @@ export default {
         return {
             my_id:'',
             postList:[],
-            pngList:[
-                'https://img2.baidu.com/it/u=1114221024,412737789&fm=253&fmt=auto&app=138&f=JPEG?w=889&h=500',
-                 'https://img1.baidu.com/it/u=1505021688,2426333584&fm=253&fmt=auto&app=120&f=JPEG?w=928&h=500',
-                'https://img.chongwuzhi.com.cn/2023/02/20230206143042374.png?imageView2/0/format/webp/q/75|imageslim',
-                'https://img1.baidu.com/it/u=1916585894,1667750262&fm=253&fmt=auto&app=138&f=JPEG?w=883&h=500'],
             collapsed: false,
             currentDate: new Date()
         }
     },
     mounted() {
-        axios.get('http://10.136.133.87:9000/searchPost',)
+        const token = localStorage.getItem('token');
+        const payload = token.split('.')[1];
+        const decodedPayload = atob(payload);
+        const dat = JSON.parse(decodedPayload);
+        this.my_id = dat.id;
+        axios.get('http://10.136.133.87:9000/MyPost',{
+            params:{
+                id: dat.id
+            }
+        })
             .then((response) => {
                 const { code, data} = response.data;
                 if (code===1) {
                     this.postList = data;
                     for (let i = 0; i < this.postList.length; i++){
-                        this.postList[i].picture_id = 'http://10.136.133.87:9000/image/' + this.postList[i].picture_id;
+                        this.postList[i].person_id = dat.id;
+                        this.postList[i].pic_id = 'http://10.136.133.87:9000/image/' + this.postList[i].pic_id;
                     }
                 }
             })

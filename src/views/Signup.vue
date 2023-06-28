@@ -37,7 +37,19 @@
 
                         <label for="email">邮箱</label>
                         <input type="email" id="email" v-model="email" placeholder="请输入邮箱" required>
-                        
+
+                        <label for="png">头像</label>
+                        <el-upload
+                            class="upload-demo"
+                            ref="upload"
+                            action="http://10.136.133.87:9000/image/Upload"
+                            :on-preview="handlePreview"
+                            :on-remove="handleRemove"
+                            :file-list="fileList"
+
+                            :on-success="get_id">
+                            <el-button slot="trigger" size="small" type="primary">选取文件</el-button>
+                        </el-upload>
                         <p></p>
 
                         <button type="submit" id="submit-btn">确认注册</button>
@@ -60,6 +72,8 @@ export default {
     name: "SignUp",
     data: function() {
         return {
+            fileList:[],
+            pic_id: '',
             collapsed: false,
             name: '',
             account:'',
@@ -72,6 +86,21 @@ export default {
         }
     },
     methods: {
+        get_id(res) {
+            this.pic_id = res.data;
+        },
+        handleRemove(file, fileList) {
+            console.log(file, fileList);
+        },
+        handlePreview(file) {
+            console.log(file);
+        },
+        handleExceed(files, fileList) {
+            this.$message.warning(`当前限制选择 1 个文件，本次选择了 ${files.length} 个文件，共选择了 ${files.length + fileList.length} 个文件`);
+        },
+        beforeRemove(file) {
+            return this.$confirm(`确定移除 ${ file.name }？`);
+        },
         regist() {
             const data = {
                 account: this.account,
@@ -81,7 +110,8 @@ export default {
                 city_or_county: this.city_or_county,
                 distinguish: this.distinguish,
                 community: this.community,
-                email: this.email
+                email: this.email,
+                picture_id: this.pic_id,
             };
             axios.post('http://10.136.133.87:9000/Regist', data)
                 .then((response) => {
@@ -153,7 +183,7 @@ body {
 /*设置登录框的样式 */
 .login-box {
     width: 500px;
-    height: 750px;
+    height: 850px;
     background-color: #fff;
     margin: 100px auto;
     border-radius: 10px;

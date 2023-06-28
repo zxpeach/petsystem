@@ -6,7 +6,11 @@
         <el-button class="loginbotton" v-if="this.IsLogin === false" v-on:click="login">登录</el-button>
         <el-button class="signupbotton" v-if="this.IsLogin === false" v-on:click="signup">注册</el-button>
         <el-submenu index="2" class="submenu">
-            <template slot="title"><span id="username" class="name"></span></template>
+            <template slot="title">
+                <el-avatar >
+                    <img :src = "avatar" alt="Image" class="logoimg"/>
+                </el-avatar>
+            </template>
             <el-menu-item index="2-1" v-on:click="chatpage">私信</el-menu-item>
             <el-menu-item index="2-2" v-on:click="userpage">个人中心</el-menu-item>
             <el-menu-item v-on:click="idquit" index="2-3">退出</el-menu-item>
@@ -15,10 +19,13 @@
 </template>
 
 <script>
+import axios from "axios";
+
 export default {
     name: "TopNav",
     data: function() {
         return {
+            avatar:'',
             IsLogin:false,
             collapsed: false,
             //imgshow: require("../assets/img/show.png"),
@@ -26,15 +33,25 @@ export default {
         }
     },
     mounted() {
+        const tokenl = localStorage.getItem('token');
+        const payloadl = tokenl.split('.')[1];
+        const decodedPayloadl = atob(payloadl);
+        const datl = JSON.parse(decodedPayloadl);
+        if(datl.id) this.IsLogin=true;
 
-        const token = localStorage.getItem('token');
-        const payload = token.split('.')[1];
-        const decodedPayload = atob(payload);
-        const data = JSON.parse(decodedPayload);
-        const usernameElement = document.getElementById('username');
-        usernameElement.textContent = data.name;
-        if(data.id) this.IsLogin=true;
-        else usernameElement.textContent="未登录";
+        axios.get('http://10.136.133.87:9000/getPerson',{
+            params: {
+                'id': datl.id
+            }
+        })
+            .then((response) => {
+                const now=response.data.data;
+                this.avatar = 'http://10.136.133.87:9000/image/'+now.picture_id;
+                //得到信息后复制
+            })
+            .catch((error) => {
+                console.error(error);
+            });
 
     },
     methods: {
@@ -94,13 +111,13 @@ export default {
 }
 .loginbotton{
     margin-left: 1000px;
-    color: aliceblue;
+    color: #528aff;
     background-color: #ffffff;
     text-align: end;
 }
 .signupbotton{
     margin-left: 10px;
-    color: aliceblue;
+    color: #528aff;
     background-color: #ffffff;
     /* text-align: end; */
 }

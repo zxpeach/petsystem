@@ -14,10 +14,25 @@
                     <div slot="header" class="clearfix">
                         <span>个人信息</span>
                         <el-button style=" margin-left : 10px;float: right; padding: 3px 0" type="text" v-if="this.is_me === false" v-on:click="startchat">私聊ta</el-button>
-                        <el-button style=" margin-left : 10px;float: right; padding: 3px 0" type="text" v-if="this.is_me === false&& this.attentioned === true" v-on:click="unattention">取消关注</el-button>
-                        <el-button style=" margin-left : 10px;float: right; padding: 3px 0" type="text" v-if="this.is_me === false&& this.attentioned === false" v-on:click="attention">关注</el-button>
+                        <el-button style=" margin-left : 10px;float: right; padding: 3px 0" type="text" v-if="this.is_me === false && this.attentioned === true" v-on:click="unattention">取消关注</el-button>
+                        <el-button style=" margin-left : 10px;float: right; padding: 3px 0" type="text" v-if="this.is_me === false && this.attentioned === false" v-on:click="attention">关注</el-button>
                         <el-button style="float: right; padding: 3px 0" type="text" v-if="this.is_me === true" v-on:click="updateprofile">修改信息</el-button>
                     </div>
+                    <el-avatar >
+                        <img :src = "avatar" alt="Image" class="logoimg"/>
+                    </el-avatar>
+                    <el-upload
+                        class="upload-demo"
+                        ref="upload"
+                        action="http://10.136.133.87:9000/image/Upload"
+                        :on-preview="handlePreview"
+                        :on-remove="handleRemove"
+                        :file-list="fileList"
+
+                        :on-success="get_id"
+                    v-if="this.is_me === true">
+                        <el-button slot="trigger" size="small" type="primary">选取头像</el-button>
+                    </el-upload>
                     <label for="name" class="char_lt">用户名:</label>
                     <el-input type="text" id="name" v-model="name" required></el-input>
                     <br>
@@ -54,8 +69,8 @@
                                 <el-scrollbar ref="scrollbar" wrap-class="scrollbar-wrap">
                                     <ul class="message-list" ref="messageList">
 
-                                        <li v-for="(attention,index) in attentionlist" :key="index" @click="gouser(attention.id)" >
-                                            <span class="author">{{ attention.id }}</span>
+                                        <li v-for="(attention,index) in attentionlist" :key="index" @click="gouser(attention)" >
+                                            <span class="author">{{ attention }}</span>
                                         </li>
                                     </ul>
                                 </el-scrollbar>
@@ -82,6 +97,7 @@ export default {
     name: "UserPage",
     data: function() {
         return {
+            avatar:'',
             attentioned :false,
             is_me :false,
             collapsed: false,
@@ -96,6 +112,8 @@ export default {
             oldpassword: '',
             newpassword: '',
             attentionlist: [],
+            fileList:[],
+            idList:[],
         }
     },
     mounted() {
@@ -114,6 +132,7 @@ export default {
         })
             .then((response) => {
                 const now=response.data.data;
+                this.avatar = 'http://10.136.133.87:9000/image/'+now.picture_id;
                 this.id=now.id;
                 if(dat.id == now.id)this.is_me = true;
                 this.password=now.password;
@@ -132,7 +151,7 @@ export default {
         //获得关注列表
         axios.get('http://10.136.133.87:9000/MyAttention',{
             params: {
-                'id': to_id
+                'id': Number(to_id)
             }
         })
             .then((response) => {
@@ -142,12 +161,11 @@ export default {
             })
             .catch((error) => {
                 console.error(error);
-                alert('无法调取信息：' + error.message);
             });
         //看是否关注
         if(this.is_me === false){
             const data = {
-                id: this.id,
+                id: Number(to_id),
             };
             const token = localStorage.getItem('token');
             axios.post('http://10.136.133.87:9000/CheckAttention',data,{
@@ -166,6 +184,18 @@ export default {
         }
     },
     methods: {
+        get_id(res) {
+            this.idList.push(res.data);
+        },
+        handleRemove(file, fileList) {
+            console.log(file, fileList);
+        },
+        handlePreview(file) {
+            console.log(file);
+        },
+        beforeRemove(file) {
+            return this.$confirm(`确定移除 ${ file.name }？`);
+        },
         updateprofile(){
             const data = {
                 name: this.name,
@@ -175,14 +205,20 @@ export default {
                 city_or_county: this.city_or_county,
                 distinguish: this.distinguish,
                 community: this.community,
-                email: this.email
+                email: this.email,
+                picture_id: this.idList[0],
             };
-            axios.post('http://10.136.133.87:9000/updateProfile', data)
+            const token = localStorage.getItem('token');
+            axios.post('http://10.136.133.87:9000/updateProfile', data,{
+                headers: {
+                    'token': token
+                }
+            })
                 .then((response) => {
                     const { code } = response.data;
                     if (code===1) {
                         alert('修改成功');
-                        this.$router.push('/login');
+                        location.reload();
                     } else {
                         alert('修改失败');
                     }
@@ -218,7 +254,7 @@ export default {
         },
         unattention(){
             const data = {
-                id: this.id,
+                id: Number(this.id),
             };
             const token = localStorage.getItem('token');
             axios.post('http://10.136.133.87:9000/UnLikePerson', data,{

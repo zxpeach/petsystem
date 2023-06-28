@@ -94,11 +94,33 @@ export default {
             });
     },
     methods: {
-        accept(){
 
-        },
-        reject(){
-
+        reject(row){
+            const data ={
+                from_id: row.from_id,
+                to_id: row.pet_id,
+                time: row.time,
+                stat: false,
+            }
+            const token = localStorage.getItem('token');
+            axios.post('http://10.136.133.87:9000/Adopt', data, {
+                headers: {
+                    'token': token
+                }
+            })
+                .then((response) => {
+                    const {code} = response.data;
+                    if (code === 1) {
+                        alert("成功");
+                    }
+                    else{
+                        alert('失败');
+                    }
+                })
+                .catch((error) => {
+                    console.error(error);
+                    alert('失败：' + error.message);
+                });
         }
     },
     computed: { //计算属性

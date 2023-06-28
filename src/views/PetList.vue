@@ -15,12 +15,12 @@
                         :data="tableData"
                         style="width: 900px; margin-left: 150px; margin-top: 60px;">
                     <el-table-column
-                            prop="pet_id"
+                            prop="id"
                             label="宠物id"
                             width="300">
                     </el-table-column>
                     <el-table-column
-                            prop="pet_name"
+                            prop="name"
                             label="昵称"
                             width="300">
                     </el-table-column>
@@ -28,8 +28,10 @@
                         fixed="right"
                         label="操作"
                         width="200">
+
                         <template slot-scope="scope">
                             <el-button @click="PetDetails(scope.row)" type="text" size="small">查看</el-button>
+                            <el-button @click="PetApply(scope.row)" type="text" size="small">查看申请</el-button>
                         </template>
                     </el-table-column>
                 </el-table>
@@ -46,19 +48,26 @@
                         <div slot="header" class="clearfix">
                             <span>宠物信息</span>
                             <el-button @click="DeletePet" style="float: right; padding: 3px 0" type="text" >删除宠物</el-button>
-                            <el-button @click="centerDialogVisible = false" style="float: right; padding: 3px 0" type="text" >关闭</el-button>
 
                         </div>
                         <label for="petData.name" class="char_lt">昵称 :</label>
                         <div>    {{ petData.name }}</div>
+                        <br>
                         <label for="petData.breeds" class="char_lt">品种 :</label>
                         <div>    {{ petData.breeds }}</div>
+                        <br>
                         <label for="petData.health" class="char_lt">健康状态 :</label>
                         <div>    {{ petData.health }}</div>
-                        <label for="petData.notes" class="char_lt">城市 :</label>
+                        <br>
+                        <label for="petData.notes" class="char_lt">备注 :</label>
                         <div>    {{ petData.notes }}</div>
+                        <br>
                         <label for="petData.is_adopted" class="char_lt">是否被领养 : </label>
                         <div>    {{ petData.is_adopted }}</div>
+                        <br>
+                        <el-card :body-style="{ padding: '0px' }" style="width: 230px;">
+                            <img :src = "url" alt="Image" style="width: 230px;"/>
+                        </el-card>
 
                     </el-card>
 
@@ -82,6 +91,7 @@ export default {
     name: "PetList",
     data: function() {
         return {
+            url:'',
             collapsed: false,
             tableData: [],
             petData: {},
@@ -115,19 +125,20 @@ export default {
         PetDetails(row) {
             console.log(row);
             this.centerDialogVisible = true;
-            const token = localStorage.getItem('token');
-            const data = {
-                id: row.id
-            };
-            axios.post('http://10.136.133.87:9000/getPet', data,{
-                headers: {
-                    'token': token
+
+            axios.get('http://10.136.133.87:9000/getPet',{
+                params: {
+                    'id': row.id
                 }
             })
                 .then((response) => {
                     const { code, data} = response.data;
                     if (code===1) {
                         this.petData = data;
+                        if(this.petData.health === -1)this.petData.health = "差";
+                        if(this.petData.health === 0)this.petData.health = "一般";
+                        if(this.petData.health === 1)this.petData.health = "好";
+                        this.url = 'http://10.136.133.87:9000/image/' + this.petData.picture_id;
                     } else {
                         alert('获取信息失败');
                     }
@@ -160,6 +171,10 @@ export default {
                     console.error(error);
                     alert('失败：' + error.message);
                 });
+        },
+        PetApply(row){
+            localStorage.setItem('to_pet', row.id);
+            this.$router.push({name:'OtherApplyPet'});
         }
     },
     computed: { //计算属性
