@@ -93,7 +93,7 @@ export default {
         const payload = token.split('.')[1];
         const decodedPayload = atob(payload);
         const dat = JSON.parse(decodedPayload);
-        axios.get('http://10.136.132.34:9000/MyPet',{
+        axios.get('http://10.136.133.87:9000/MyPet',{
             params: {
                 'id': dat.id
             }
@@ -119,7 +119,7 @@ export default {
             const data = {
                 id: row.id
             };
-            axios.post('http://10.136.132.34:9000/getPet', data,{
+            axios.post('http://10.136.133.87:9000/getPet', data,{
                 headers: {
                     'token': token
                 }
@@ -143,7 +143,7 @@ export default {
             const data = {
                 id: this.petData.id
             };
-            axios.post('http://10.136.132.34:9000/DeletePet', data,{
+            axios.post('http://10.136.133.87:9000/DeletePet', data,{
                 headers: {
                     'token': token
                 }

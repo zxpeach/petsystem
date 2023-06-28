@@ -52,7 +52,7 @@ export default {
                 account: this.account,
                 password: this.password
             };
-            axios.post('http://10.136.132.34:9000/Login', data)
+            axios.post('http://10.136.133.87:9000/Login', data)
                 .then((response) => {
                     const { code, msg, data } = response.data;
                     if (code === 1) {

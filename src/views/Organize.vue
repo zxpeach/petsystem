@@ -92,7 +92,7 @@ export default {
         const data = {
             id: this.id
         };
-        axios.post('http://10.136.132.34:9000/Organize', data,{
+        axios.post('http://10.136.133.87:9000/Organize', data,{
             headers: {
                 'token': token
             }
@@ -118,7 +118,7 @@ export default {
             const data = {
                 id: row.id
             };
-            axios.post('http://10.136.132.34:9000/getOrganization', data,{
+            axios.post('http://10.136.133.87:9000/getOrganization', data,{
                 headers: {
                     'token': token
                 }
@@ -143,7 +143,7 @@ export default {
             const data = {
                 id: this.OrganizeData.id
             };
-            axios.post('http://10.136.132.34:9000/DeleteOrganization', data,{
+            axios.post('http://10.136.133.87:9000/DeleteOrganization', data,{
                 headers: {
                     'token': token
                 }

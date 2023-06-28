@@ -92,7 +92,7 @@ export default {
         const data = {
 
         }
-        axios.post('http://10.136.132.34:9000/getContactList',data,{
+        axios.post('http://10.136.133.87:9000/getContactList',data,{
             headers: {
                 'token': token
             }
@@ -120,7 +120,7 @@ export default {
                 text : this.newMessage,
             };
             this.newMessage = '';
-            axios.post('http://10.136.132.34:9000/sendMessage',data,{
+            axios.post('http://10.136.133.87:9000/sendMessage',data,{
                 headers: {
                     'token': token
                 }
@@ -157,7 +157,7 @@ export default {
             };
 
             const token = localStorage.getItem('token');
-            axios.post('http://10.136.132.34:9000/getContact', data,{
+            axios.post('http://10.136.133.87:9000/getContact', data,{
                 headers: {
                     'token': token
                 }

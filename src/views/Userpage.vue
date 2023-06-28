@@ -13,9 +13,10 @@
                 <el-card class="box-card">
                     <div slot="header" class="clearfix">
                         <span>个人信息</span>
+                        <el-button style=" margin-left : 10px;float: right; padding: 3px 0" type="text" v-if="this.is_me === false" v-on:click="startchat">私聊ta</el-button>
                         <el-button style=" margin-left : 10px;float: right; padding: 3px 0" type="text" v-if="this.is_me === false&& this.attentioned === true" v-on:click="unattention">取消关注</el-button>
                         <el-button style=" margin-left : 10px;float: right; padding: 3px 0" type="text" v-if="this.is_me === false&& this.attentioned === false" v-on:click="attention">关注</el-button>
-                        <el-button style="float: right; padding: 3px 0" type="text" v-on:click="updateprofile">修改信息</el-button>
+                        <el-button style="float: right; padding: 3px 0" type="text" v-if="this.is_me === true" v-on:click="updateprofile">修改信息</el-button>
                     </div>
                     <label for="name" class="char_lt">用户名:</label>
                     <el-input type="text" id="name" v-model="name" required></el-input>
@@ -106,7 +107,7 @@ export default {
         const sto_id = localStorage.getItem('sto_id');
         if(sto_id)to_id = sto_id;
         //获得个人信息
-        axios.get('http://10.136.132.34:9000/getPerson',{
+        axios.get('http://10.136.133.87:9000/getPerson',{
             params: {
                 'id': to_id
             }
@@ -129,7 +130,7 @@ export default {
                 alert('无法调取信息：' + error.message);
             });
         //获得关注列表
-        axios.get('http://10.136.132.34:9000/MyAttention',{
+        axios.get('http://10.136.133.87:9000/MyAttention',{
             params: {
                 'id': to_id
             }
@@ -149,7 +150,7 @@ export default {
                 id: this.id,
             };
             const token = localStorage.getItem('token');
-            axios.post('http://10.136.132.34:9000/CheckAttention',data,{
+            axios.post('http://10.136.133.87:9000/CheckAttention',data,{
                 headers: {
                     'token': token
                 }
@@ -176,7 +177,7 @@ export default {
                 community: this.community,
                 email: this.email
             };
-            axios.post('http://10.136.132.34:9000/updateProfile', data)
+            axios.post('http://10.136.133.87:9000/updateProfile', data)
                 .then((response) => {
                     const { code } = response.data;
                     if (code===1) {
@@ -196,7 +197,7 @@ export default {
                 id: this.id,
             };
             const token = localStorage.getItem('token');
-            axios.post('http://10.136.132.34:9000/LikePerson', data,{
+            axios.post('http://10.136.133.87:9000/LikePerson', data,{
                 headers: {
                     'token': token
                 }
@@ -220,7 +221,7 @@ export default {
                 id: this.id,
             };
             const token = localStorage.getItem('token');
-            axios.post('http://10.136.132.34:9000/UnLikePerson', data,{
+            axios.post('http://10.136.133.87:9000/UnLikePerson', data,{
                 headers: {
                     'token': token
                 }
@@ -242,6 +243,31 @@ export default {
         gouser(uid){
             localStorage.setItem('sto_id', uid);
             location.reload();
+        },
+        startchat(){
+            const token = localStorage.getItem('token');
+            const data = {
+                to_id : this.id,
+                text : '你好~',
+            };
+            axios.post('http://10.136.133.87:9000/sendMessage',data,{
+                headers: {
+                    'token': token
+                }
+            })
+                .then((response) => {
+                    const { code } = response.data;
+                    if (code===1) {
+                        this.$router.push({name:'ChatPage'});
+                    } else {
+                        alert('失败');
+                    }
+                    //得到信息后复制
+                })
+                .catch((error) => {
+                    console.error(error);
+                    alert('无法调取信息：' + error.message);
+                });
         }
     },
     computed: { //计算属性

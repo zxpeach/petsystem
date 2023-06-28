@@ -9,41 +9,44 @@
             </el-header>
             <el-main class="main-center">
 
-                <div class="login-box">
-                    <h2 style="text-align:center">上传宠物</h2>
-                    <form  @submit.prevent="petupload" >
 
-                        <label for="name">昵称</label>
-                        <input type="text" id="name" v-model="name" placeholder="请输入昵称" required>
 
-                        <label for="breeds">品种</label>
-                        <input type="text" id="breeds" v-model="breeds" placeholder="请输入品种" required>
 
-                        <label for="health">健康状态</label>
-                        <input type="text" id="health" v-model="health" placeholder="请输入健康状态" required>
+                <el-card class="box-card">
 
-                        <label for="notes">备注</label>
-                        <input type="text" id="notes" v-model="notes" placeholder="请输入备注">
+                    <div slot="header" class="clearfix">
+                        <span >发布帖子</span>
+                    </div>
 
-                        <label for="petpng">宠物照片</label>
+                    <form  @submit.prevent="uploadpost" >
+
+                        <label for="name" class="char_lt">标题</label>
+                        <input type="text" id="name" v-model="name" placeholder="请输入标题" required>
+
+                        <label for="id" class="char-lt"> 正文</label>
+                        <textarea class="char" v-model="text" placeholder="请输入正文" required></textarea>
+
+                        <label for="png">图片</label>
                         <el-upload
                             class="upload-demo"
                             :on-preview="handlePreview"
                             :on-remove="handleRemove"
                             :before-remove="beforeRemove"
                             multiple
-                            :limit="1"
+                            :limit="6"
                             :on-exceed="handleExceed"
                             :file-list="fileList">
                             <el-button size="small" type="primary">点击选择图片</el-button>
                             <div slot="tip" class="el-upload__tip">只能上传jpg/png文件，且不超过500kb</div>
                         </el-upload>
 
-                        <p></p>
 
-                        <button type="submit" id="submit-btn">上传</button>
+                        <button type="submit" id="submit-btn">确认发布</button>
                     </form>
-                </div>
+
+                </el-card>
+
+
 
 
             </el-main>
@@ -60,15 +63,14 @@ import axios from "axios";
 // 导出模块
 export default {
     name: "MainPage",
-    data: function () {
+    data: function() {
         return {
-            collapsed: false,
-            name: '',
-            breeds:'',
-            health:'',
-            notes:'',
+            currentTime:'',
+            name:'',
+            text:'',
             fileList: [],
             idList:[],
+            collapsed: false
         }
     },
     methods: {
@@ -79,12 +81,12 @@ export default {
             console.log(file);
         },
         handleExceed(files, fileList) {
-            this.$message.warning(`当前限制选择 1 个文件，本次选择了 ${files.length} 个文件，共选择了 ${files.length + fileList.length} 个文件`);
+            this.$message.warning(`当前限制选择 6 个文件，本次选择了 ${files.length} 个文件，共选择了 ${files.length + fileList.length} 个文件`);
         },
         beforeRemove(file) {
             return this.$confirm(`确定移除 ${ file.name }？`);
         },
-        petupload() {
+        uploadpost() {
             for (let i = 0; i < this.fileList.length; i++) {
 
                 const formData = new FormData();
@@ -102,15 +104,16 @@ export default {
                     });
 
             }
+            const now = new Date();
+            this.currentTime = now.toLocaleTimeString();
             const data ={
                 name: this.name,
-                breeds: this.breeds,
-                health: this.health,
+                time: this.currentTime,
+                text: this.text,
                 Array: this.idList,
-                notes: this.notes,
             }
             const token = localStorage.getItem('token');
-            axios.post('http://10.136.133.87:9000/uploadPet', data, {
+            axios.post('http://10.136.133.87:9000/uploadPost', data, {
                 headers: {
                     'token': token
                 }
@@ -118,20 +121,21 @@ export default {
                 .then((response) => {
                     const {code} = response.data;
                     if (code === 1) {
-                        alert("上传成功");
+                        alert("发布成功");
                     }
                     else{
-                        alert('上传失败');
+                        alert('发布失败');
                     }
                 })
                 .catch((error) => {
                     console.error(error);
                     alert('失败：' + error.message);
                 });
+
         }
     },
     computed: { //计算属性
-        asideClass: function () { //如果collapsed属性为true就展开不样式 反之就展开样式
+        asideClass: function() { //如果collapsed属性为true就展开不样式 反之就展开样式
             return this.collapsed ? "main-aside-collapsed" : "main-aside";
         }
     },
@@ -140,7 +144,7 @@ export default {
         LeftAside
 
     },
-    created: function () { //钩子函数
+    created: function() { //钩子函数
         this.$root.Bus.$on("Handle", value => {
             this.collapsed = value;
         });
@@ -148,54 +152,52 @@ export default {
 };
 </script>
 <style scoped>
-body {
-    background-color: #f1f1f1;
-    font-family: Arial, Helvetica, sans-serif;
+.main-container {
+    height: 100%;
+    width: 100%;
+    box-sizing: border-box;
 }
 
-/*设置登录框的样式 */
-.login-box {
-    width: 500px;
-    height: 550px;
-    background-color: #fff;
-    margin: 100px auto;
-    border-radius: 10px;
-    box-shadow: 0 0 5px #000;
-    padding: 20px;
-    color: aliceblue;
-    background-color: #528aff;
+/* 不展开样式*/
+.main-aside-collapsed {
+    /* 在CSS中，通过对某一样式声明! important ，可以更改默认的CSS样式优先级规则，使该条样式属性声明具有最高优先级 */
+    width: 64px !important;
+    height: 100%;
+    background-color: #ff695f;
+    margin: 0px;
 }
 
-/*设置输入框样式 */
-input[type=text],
-input[type=password],
-input[type=email]
+/* 展开样式*/
+.main-aside {
+    width: 200px !important;
+    height: 100%;
+    background-color: #ff695f;
+    margin: 0px;
+}
+
+.main-header,
+.main-center {
+    padding: 0px;
+    border-left: 2px solid #333;
+}
+.char_lt
+ {
+     /* color: #333; */
+     text-align: left;
+     font-family: '宋体';
+     font-size: 15px;
+     line-height: 2.5;
+ }
+.char
 {
-    width: 100%;
-    padding: 12px 20px;
-    margin: 8px 0;
-    display: inline-block;
-    border: 1px solid #ccc;
-    box-sizing: border-box;
-    border-radius: 4px;
-}
-
-/* 按钮样式 */
-button {
-    background-color: aliceblue;
-    color: #528aff;
-    padding: 14px 20px;
-    margin: 8px 0;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    box-sizing: border-box;
-    width: 100%;
-}
-
-/* 按钮悬停效果 */
-button:hover {
-    background-color: #cccccc;
+    height: 400px; /* 设置输入框高度 */
+    width: 97%; /* 设置输入框宽度 */
+    padding: 10px; /* 设置内边距 */
+    border: 1px solid #ccc; /* 设置边框样式 */
+    background-color: #f8f8f8; /* 设置背景色 */
+    font-family: Arial, sans-serif; /* 设置字体样式 */
+    resize: vertical; /* 启用垂直调整大小 */
+    overflow-y: auto; /* 自动显示垂直滚动条 */
 }
 .main-container {
     height: 100%;
@@ -225,4 +227,39 @@ button:hover {
     padding: 0px;
     border-left: 2px solid #333;
 }
+
+
+input[type=text],
+input[type=email]
+{
+    width: 100%;
+    padding: 12px 20px;
+    margin: 8px 0;
+    display: inline-block;
+    border: 1px solid #ccc;
+    box-sizing: border-box;
+    border-radius: 4px;
+}
+.box-card {
+    margin-top: 60px;
+    margin-left: 150px;
+    width: 900px;
+}
+button {
+    background-color: aliceblue;
+    color: #528aff;
+    padding: 14px 20px;
+    margin: 8px 0;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    box-sizing: border-box;
+    width: 100%;
+}
+
+/* 按钮悬停效果 */
+button:hover {
+    background-color: #cccccc;
+}
+
 </style>

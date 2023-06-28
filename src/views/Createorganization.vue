@@ -33,7 +33,7 @@
                         <label for="slogan">组织标语</label>
                         <input type="text" id="slogan" v-model="slogan" placeholder="请输入组织标语" required>
                         
-                        <hr>
+
 
                         <button type="submit" id="submit-btn">确认创建</button>
                     </form>
@@ -76,7 +76,7 @@ export default {
                 slogan: this.slogan,
                 creator: this.creator
             };
-            axios.post('http://10.136.132.34:9000/CreateOrganization', data)
+            axios.post('http://10.136.133.87:9000/CreateOrganization', data)
                 .then((response) => {
                     const { code } = response.data;
                     if (code===1) {

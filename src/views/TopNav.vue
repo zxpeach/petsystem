@@ -1,5 +1,5 @@
 <template>
-    <el-menu class="el-menu-demo" mode="horizontal" background-color="#528aff" text-color="#fff" active-text-color="#fff">
+    <el-menu class="el-menu-demo" mode="horizontal" background-color="#ffffff" text-color="333333" active-text-color="#333333">
         <el-button class="buttonimg">
 
         </el-button>
@@ -95,13 +95,13 @@ export default {
 .loginbotton{
     margin-left: 1000px;
     color: aliceblue;
-    background-color: #528aff;
+    background-color: #ffffff;
     text-align: end;
 }
 .signupbotton{
     margin-left: 10px;
     color: aliceblue;
-    background-color: #528aff;
+    background-color: #ffffff;
     /* text-align: end; */
 }
 .showimg:active {

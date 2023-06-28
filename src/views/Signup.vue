@@ -83,7 +83,7 @@ export default {
                 community: this.community,
                 email: this.email
             };
-            axios.post('http://10.136.132.34:9000/Regist', data)
+            axios.post('http://10.136.133.87:9000/Regist', data)
                 .then((response) => {
                     const { code } = response.data;
                     if (code===1) {

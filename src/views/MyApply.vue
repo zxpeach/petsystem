@@ -75,7 +75,7 @@ export default {
         const data = {
             account: dat.id
         };
-        axios.post('http://10.136.132.34:9000/getAdoptRecords', data,{
+        axios.post('http://10.136.133.87:9000/getAdoptRecords', data,{
             headers: {
                 'token': token
             }

@@ -9,31 +9,23 @@
             </el-header>
             <el-main class="main-center">
 
-                <el-table
-                    :data="tableData"
-                    style="margin-top: 30px; margin-left: 60px; width: 90%">
-                    <el-table-column type="expand">
-                        <template slot-scope="props">
-                            <el-form label-position="left" inline class="demo-table-expand">
-                                <el-form-item label="概要">
-                                    <span>{{ props.row.title }}</span>
-                                </el-form-item>
-                                <el-form-item label="内容">
-                                    <span>{{ props.row.text }}</span>
-                                </el-form-item>
-                                <el-form-item label="发布人">
-                                    <span>{{ props.row.id }}</span>
-                                </el-form-item>
-                            </el-form>
-                        </template>
-                    </el-table-column>
-                    <el-table-column
-                        label="公告栏"
-                        prop="time">
-                        
-                    </el-table-column>
+                <div style="width: 1000px; margin-left: 100px; margin-top: 40px;">
+                    <span class="demonstration"></span>
+                    <el-carousel :interval="4000" type="card" height="300px">
+                        <el-carousel-item v-for="(png,index) in pngList" :key="index">
+                            <img :src = "png" alt="Image" class="logoimg"/>
 
-                </el-table>
+
+                            <div class="slider-cat">
+                                <span class="b2-radius"><b style="border-left:4px solid #607d8b"></b>宠物新鲜事</span>
+                            </div>
+
+                            <h2>每年冬天60%的流浪猫都会被冻死！建议大家领养猫代替购买猫！</h2>
+
+
+                        </el-carousel-item>
+                    </el-carousel>
+                </div>
 
 
                 <el-row :gutter="10">
@@ -68,6 +60,11 @@ export default {
     name: "MainPage",
     data: function() {
         return {
+            pngList:[
+                'https://img2.baidu.com/it/u=1114221024,412737789&fm=253&fmt=auto&app=138&f=JPEG?w=889&h=500',
+                 'https://img1.baidu.com/it/u=1505021688,2426333584&fm=253&fmt=auto&app=120&f=JPEG?w=928&h=500',
+                'https://img.chongwuzhi.com.cn/2023/02/20230206143042374.png?imageView2/0/format/webp/q/75|imageslim',
+                'https://img1.baidu.com/it/u=1916585894,1667750262&fm=253&fmt=auto&app=138&f=JPEG?w=883&h=500'],
             collapsed: false,
             currentDate: new Date()
         }
@@ -107,7 +104,10 @@ export default {
     background-color: #ff695f;
     margin: 0px;
 }
-
+.logoimg {
+    height: 300px;
+    width: 500px;
+}
 /* 展开样式*/
 .main-aside {
     width: 200px !important;
@@ -115,7 +115,21 @@ export default {
     background-color: #ff695f;
     margin: 0px;
 }
+.el-carousel__item h3 {
+    color: #475669;
+    font-size: 14px;
+    opacity: 0.75;
+    line-height: 150px;
+    margin: 0;
+}
 
+.el-carousel__item:nth-child(2n) {
+    background-color: #99a9bf;
+}
+
+.el-carousel__item:nth-child(2n+1) {
+    background-color: #d3dce6;
+}
 .main-header,
 .main-center {
     padding: 0px;

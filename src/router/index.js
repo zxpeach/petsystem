@@ -62,6 +62,11 @@ const routes = [
     name: 'Organize',
     component:()=>import('../views/Organize.vue'),
   },
+  {
+    path: '/UploadPost',
+    name: 'UploadPost',
+    component:()=>import('../views/UploadPost.vue'),
+  },
 ]
 
 const router = new VueRouter({
