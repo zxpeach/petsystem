@@ -16,13 +16,21 @@
                         <template slot-scope="props">
                             <el-form label-position="left" inline class="demo-table-expand">
                                 <el-form-item label="概要">
-                                    <span>{{ props.row.title }}</span>
+                                    <label class="TTTitle">
+                                        <span>{{ props.row.title }}</span>
+                                    </label>
                                 </el-form-item>
+                                <br>
                                 <el-form-item label="内容">
-                                    <span>{{ props.row.text }}</span>
+                                    <label class="TTTitle">
+                                        <span>{{ props.row.text }}</span>
+                                    </label>
                                 </el-form-item>
+                                <br>
                                 <el-form-item label="发布人">
-                                    <span>{{ props.row.id }}</span>
+                                    <label class="TTTitle">
+                                        <span>{{ props.row.id }}</span>
+                                    </label>
                                 </el-form-item>
                             </el-form>
                         </template>
@@ -69,7 +77,10 @@ export default {
     data: function() {
         return {
             collapsed: false,
-            currentDate: new Date()
+            currentDate: new Date(),
+            tableData: [
+                {time: '2023-06-15', title: '关于该系统的相关内容\n', text: '本系统现为1.0版，将来会不断维护更新以满足不同系统与浏览器的情况，如有bug欢迎联系', id: '123456789@126.com'},
+            ]
         }
     },
     methods: {
@@ -164,4 +175,12 @@ export default {
 .clearfix:after {
     clear: both
 }
+
+.TTTitle {
+  font-family: "黑体", sans-serif;
+  font-weight: bold;
+  text-align: left;
+  font-size: 20px;
+}
+
 </style>
