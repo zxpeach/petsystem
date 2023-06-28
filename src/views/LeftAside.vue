@@ -4,6 +4,11 @@
         <div class="logobox">
             <img class="logoimg" src="../assets/logo.png" alt="">
         </div>
+        
+        <el-menu-item index="5" v-on:click="mainpage">
+            <i class="el-icon-menu" v-on:click="mainpage"></i>
+            <span slot="title" v-on:click="mainpage">首页</span>
+        </el-menu-item>
         <el-submenu index="1">
             <template slot="title">
                 <i class="el-icon-location"></i>
@@ -42,10 +47,6 @@
         <el-menu-item index="4">
             <i class="el-icon-document"></i>
             <span slot="title">我的消息</span>
-        </el-menu-item>
-        <el-menu-item index="5" v-on:click="mainpage">
-            <i class="el-icon-menu" v-on:click="mainpage"></i>
-            <span slot="title" v-on:click="mainpage">首页</span>
         </el-menu-item>
     </el-menu>
 </template>
