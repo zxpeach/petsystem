@@ -10,78 +10,118 @@ const routes = [
   {
     path: '/MainPage',
     name: 'MainPage',
-    component:()=>import('../views/MainPage.vue'),
+    component: () => import('../views/MainPage.vue'),
+  },
+  {
+    path: '/manMainPage',
+    name: 'manMainPage',
+    component: () => import('../views/manMainPage.vue'),
   },
   {
     path: '/Login',
     name: 'Login',
-    component:()=>import('../views/Login.vue'),
+    component: () => import('../views/Login.vue'),
   },
   {
     path: '/Signup',
     name: 'Signup',
-    component:()=>import('../views/Signup.vue'),
+    component: () => import('../views/Signup.vue'),
   },
   {
     path: '/Userpage',
     name: 'Userpage',
-    component:()=>import('../views/Userpage.vue'),
+    component: () => import('../views/Userpage.vue'),
   },
   {
     path: '/PetList',
     name: 'PetList',
-    component:()=>import('../views/PetList.vue'),
+    component: () => import('../views/PetList.vue'),
   },
   {
     path: '/PetUpload',
     name: 'PetUpload',
-    component:()=>import('../views/PetUpload.vue'),
+    component: () => import('../views/PetUpload.vue'),
   },
   {
     path: '/MyApply',
     name: 'MyApply',
-    component:()=>import('../views/MyApply.vue'),
+    component: () => import('../views/MyApply.vue'),
   },
   {
     path: '/OtherApply',
     name: 'OtherApply',
-    component:()=>import('../views/OtherApply.vue'),
+    component: () => import('../views/OtherApply.vue'),
   },
   {
     path: '/ChatPage',
     name: 'ChatPage',
-    component:()=>import('../views/ChatPage.vue'),
+    component: () => import('../views/ChatPage.vue'),
   },
   {
     path: '/Creatorganization',
     name: 'Creatorganization',
-    component:()=>import('../views/Createorganization.vue'),
+    component: () => import('../views/Createorganization.vue'),
   },
   {
     path: '/Organize',
     name: 'Organize',
-    component:()=>import('../views/Organize.vue'),
+    component: () => import('../views/Organize.vue'),
   },
   {
     path: '/UploadPost',
     name: 'UploadPost',
-    component:()=>import('../views/UploadPost.vue'),
+    component: () => import('../views/UploadPost.vue'),
   },
   {
     path: '/PostPage',
     name: 'PostPage',
-    component:()=>import('../views/PostPage.vue'),
+    component: () => import('../views/PostPage.vue'),
+  },
+  {
+    path: '/Project',
+    name: 'Project',
+    component: () => import('../views/ProjectPage.vue'),
+  },
+  {
+    path: '/Finance',
+    name: 'Finance',
+    component: () => import('../views/FinancePage.vue'),
+  },
+  {
+    path: '/manFinance',
+    name: 'manFinance',
+    component: () => import('../views/manFinance.vue'),
   },
   {
     path: '/MyPost',
     name: 'MyPost',
-    component:()=>import('../views/MyPost.vue'),
+    component: () => import('../views/MyPost.vue'),
   },
   {
     path: '/OtherApplyPet',
     name: 'OtherApplyPet',
-    component:()=>import('../views/OtherApplyPet.vue'),
+    component: () => import('../views/OtherApplyPet.vue'),
   },
+  {
+    path: '/qingjia',
+    name: 'qingjia',
+    component: () => import('../views/qingjia.vue'),
+  },
+  {
+    path: '/qingjia2',
+    name: 'qingjia2',
+    component: () => import('../views/qingjia2.vue'),
+  },
+  {
+    path: '/user',
+    name: 'user',
+    component: () => import('../views/user.vue'),
+  },
+  {
+    path: '/kaoqin',
+    name: 'kaoqin',
+    component: () => import('../views/kaoqin.vue'),
+  }
 ]
 
 const router = new VueRouter({

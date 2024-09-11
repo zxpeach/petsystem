@@ -1,12 +1,6 @@
 <template>
     <el-container class="main-container">
-        <el-aside v-bind:class="asideClass">
-            <LeftAside></LeftAside>
-        </el-aside>
         <el-container>
-            <el-header class="main-header">
-                <TopNav></TopNav>
-            </el-header>
             <el-main class="main-center">
 
                 <div class="login-box">
@@ -17,10 +11,9 @@
                         <input type="text" id="account" v-model="account" placeholder="请输入账号" />
 
                         <label for="password">密码</label>
-                        <input type="password" id="password" v-model="password" placeholder="请输入密码"  />
+                        <input type="password" id="password" v-model="password" placeholder="请输入密码" />
 
                         <button type="submit" value="Login" v-on:click="login">登录</button>
-                        <button type="submit" v-on:click="gosignup">注册</button>
                     </form>
                     <div id="error-message" style="display: none; color: red;">Invalid username or password.</div>
 
@@ -33,13 +26,11 @@
 
 <script>
 // 导入组件
-import TopNav from '@/views/TopNav.vue'
-import LeftAside from '@/views/LeftAside.vue'
 import axios from "axios";
 // 导出模块
 export default {
     name: "LoginPage",
-    data: function() {
+    data: function () {
         return {
             account: '',
             password: '',
@@ -52,14 +43,24 @@ export default {
                 account: this.account,
                 password: this.password
             };
-            axios.post('http://10.136.133.87:9000/Login', data)
+            axios.post('http://10.53.16.146:9000/login', data)
                 .then((response) => {
                     const { code, msg, data } = response.data;
                     if (code === 1) {
                         // 登录成功，将 JWT 令牌存储到本地
                         localStorage.setItem('token', data);
+                        const tokenl = localStorage.getItem('token');
+                        const payloadl = tokenl.split('.')[1];
+                        const decodedPayloadl = atob(payloadl);
+                        const datl = JSON.parse(decodedPayloadl);
+                        alert(datl.authority);
                         alert('登录成功');
-                        this.$router.push('/MainPage');
+                         if (datl.authority === 'user') {
+                             this.$router.push('/manMainPage');
+                         } else {
+                            this.$router.push('/MainPage');
+                        }
+                        
                     } else {
                         alert('登录失败：' + msg);
                     }
@@ -69,21 +70,16 @@ export default {
                     alert('登录失败：' + error.message);
                 });
         },
-        gosignup(){
+        gosignup() {
             this.$router.push('/signup');
         }
     },
     computed: { //计算属性
-        asideClass: function() { //如果collapsed属性为true就展开不样式 反之就展开样式
+        asideClass: function () { //如果collapsed属性为true就展开不样式 反之就展开样式
             return this.collapsed ? "main-aside-collapsed" : "main-aside";
         }
     },
-    components: { //引入组件
-        TopNav,
-        LeftAside
-
-    },
-    created: function() { //钩子函数
+    created: function () { //钩子函数
         this.$root.Bus.$on("Handle", value => {
             this.collapsed = value;
         });
@@ -119,6 +115,7 @@ export default {
     padding: 0px;
     border-left: 2px solid #333;
 }
+
 body {
     background-color: #f1f1f1;
     font-family: Arial, Helvetica, sans-serif;
@@ -127,14 +124,14 @@ body {
 /*设置登录框的样式 */
 .login-box {
     width: 500px;
-    height: 350px;
+    height: 330px;
     background-color: #fff;
     margin: 100px auto;
     border-radius: 10px;
-    box-shadow: 0 0 5px #000;
+    box-shadow: 0 0 3px #528aff;
     padding: 20px;
-    color: aliceblue;
-    background-color: #528aff;
+    color: #528aff;
+    background-color: #f5f5f5;
 }
 
 /*设置输入框样式 */
@@ -152,10 +149,10 @@ input[type=password] {
 
 /* 按钮样式 */
 button {
-    background-color: aliceblue;
-    color: #528aff;
+    background-color: #528aff;
+    color: aliceblue;
     padding: 14px 20px;
-    margin: 8px 0;
+    margin: 40px 0;
     border: none;
     border-radius: 4px;
     cursor: pointer;

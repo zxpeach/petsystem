@@ -19,19 +19,44 @@
                             </el-carousel-item>
                         </el-carousel>
                     </div>
-                    
-                                </div>
-                                </div>
-                            </div>
-                        </el-card>
-                    </el-col>
-                </el-row>
-                </div>
-                            </div>
-                        </el-card>
-                    </el-col>
-                </el-row>
+                    <div class="qiandao">
+                        <button class="qdheader" v-on:click="qiandao">签到考勤</button>
+                        <div style="display: flex;">
+                            <div class="qdtext">签到时间: 2024-09-07 13:58</div>
+                        </div>
+                        <button class="qdheader">请假</button>
+                        <div style="display: flex;">
+                            <div class="qdtext">请假时间: 2024-09-07 13:58</div>
+                        </div>
+                    </div>
                 
+                </div>
+                <el-page-header @back="goBack" content="签到记录" style="margin-left: 60px; margin-top: 50px;">
+                    </el-page-header>
+                <el-table
+                        :data="postList"
+                        style="width: 72%; margin-left: 5%; margin-top: 60px;">
+                    <el-table-column
+                            prop="attendanceId"
+                            label="签到编号"
+                            width="200">
+                    </el-table-column>
+                    <el-table-column
+                            prop="date"
+                            label="日期"
+                            width="400">
+                    </el-table-column>
+                    <el-table-column
+                            prop="attendanceTime"
+                            label="签到时间"
+                            width="400">
+                    </el-table-column>
+                    <el-table-column
+                            prop="attendanceState"
+                            label="状态"
+                            width="100">
+                    </el-table-column>
+                </el-table>
 
             </el-main>
         </el-container>
@@ -41,7 +66,7 @@
 <script>
 // 导入组件
 import TopNav from '@/views/TopNav.vue'
-import LeftAside from '@/views/LeftAside.vue'
+import LeftAside from '@/views/manLeftAside.vue'
 import axios from "axios";
 
 // 导出模块
@@ -52,9 +77,7 @@ export default {
             my_id:'',
             postList:[],
             pngList:[
-            'https://img1.baidu.com/it/u=1916585894,1667750262&fm=253&fmt=auto&app=138&f=JPEG?w=883&h=500',
-            'https://img1.baidu.com/it/u=1916585894,1667750262&fm=253&fmt=auto&app=138&f=JPEG?w=883&h=500',
-                'https://img1.baidu.com/it/u=1916585894,1667750262&fm=253&fmt=auto&app=138&f=JPEG?w=883&h=500'],
+                ],
             collapsed: false,
             currentDate: new Date()
         }

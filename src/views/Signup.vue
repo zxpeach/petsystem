@@ -187,10 +187,9 @@ body {
     background-color: #fff;
     margin: 100px auto;
     border-radius: 10px;
-    box-shadow: 0 0 5px #000;
+    box-shadow: 0 0 3px #528aff;
     padding: 20px;
-    color: aliceblue;
-    background-color: #528aff;
+    color: #528aff;
 }
 
 /*设置输入框样式 */

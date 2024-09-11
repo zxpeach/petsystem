@@ -1,15 +1,12 @@
 <template>
-    <el-menu class="el-menu-demo" mode="horizontal" background-color="#ffffff" text-color="333333" active-text-color="#333333">
+    <el-menu class="el-menu-demo" mode="horizontal" background-color="#ffffff" text-color="333333"
+        active-text-color="#333333">
         <el-button class="buttonimg">
 
         </el-button>
-        <el-button class="loginbotton" v-if="this.IsLogin === false" v-on:click="login">登录</el-button>
-        <el-button class="signupbotton" v-if="this.IsLogin === false" v-on:click="signup">注册</el-button>
         <el-submenu index="2" class="submenu">
             <template slot="title">
-                <el-avatar >
-                    <img :src = "avatar" alt="Image" class="logoimg"/>
-                </el-avatar>
+                <input v-model="account" disabled>
             </template>
             <el-menu-item index="2-1" v-on:click="chatpage">私信</el-menu-item>
             <el-menu-item index="2-2" v-on:click="userpage">个人中心</el-menu-item>
@@ -23,10 +20,10 @@ import axios from "axios";
 
 export default {
     name: "TopNav",
-    data: function() {
+    data: function () {
         return {
-            avatar:'',
-            IsLogin:false,
+            account:'',
+            IsLogin: false,
             collapsed: false,
             //imgshow: require("../assets/img/show.png"),
             //imgsq: require("../assets/img/sq.png")
@@ -37,16 +34,17 @@ export default {
         const payloadl = tokenl.split('.')[1];
         const decodedPayloadl = atob(payloadl);
         const datl = JSON.parse(decodedPayloadl);
-        if(datl.id) this.IsLogin=true;
+        if (datl.id) this.IsLogin = true;
+        this.account = datl.account;
 
-        axios.get('http://10.136.133.87:9000/getPerson',{
+        axios.get('http://10.136.133.87:9000/getPerson', {
             params: {
                 'id': datl.id
             }
         })
             .then((response) => {
-                const now=response.data.data;
-                this.avatar = 'http://10.136.133.87:9000/image/'+now.picture_id;
+                const now = response.data.data;
+                this.avatar = 'http://10.136.133.87:9000/image/' + now.picture_id;
                 //得到信息后复制
             })
             .catch((error) => {
@@ -55,32 +53,32 @@ export default {
 
     },
     methods: {
-        doToggle: function() { //主要控制collapsed为true和false
+        doToggle: function () { //主要控制collapsed为true和false
             this.collapsed = !this.collapsed;
             this.$root.Bus.$emit("Handle", this.collapsed);
         },
-        exit:function(){
+        exit: function () {
             this.$router.push({
-                path:'/'
+                path: '/'
             })
         },
-        idquit(){
+        idquit() {
             localStorage.removeItem('token');
             alert('退出成功');
             location.reload();
         },
-        login(){
-            this.$router.push({name:'Login'});
+        login() {
+            this.$router.push({ name: 'Login' });
         },
-        signup(){
-            this.$router.push({name:'Signup'});
+        signup() {
+            this.$router.push({ name: 'Signup' });
         },
-        userpage(){
+        userpage() {
             localStorage.setItem('sto_id', '');
-            this.$router.push({name:'Userpage'});
+            this.$router.push({ name: 'Userpage' });
         },
-        chatpage(){
-            this.$router.push({name:'ChatPage'});
+        chatpage() {
+            this.$router.push({ name: 'ChatPage' });
         }
     }
 
@@ -88,7 +86,6 @@ export default {
 </script>
 
 <style scoped>
-
 .el-menu-vertical-demo:not(.el-menu--collapse) {
     border: none;
 }
@@ -102,6 +99,7 @@ export default {
     background-color: transparent;
     border: none;
 }
+
 .showimg {
     width: 26px;
     height: 26px;
@@ -109,18 +107,21 @@ export default {
     top: 17px;
     left: 17px;
 }
-.loginbotton{
+
+.loginbotton {
     margin-left: 1000px;
     color: #528aff;
     background-color: #ffffff;
     text-align: end;
 }
-.signupbotton{
+
+.signupbotton {
     margin-left: 10px;
     color: #528aff;
     background-color: #ffffff;
     /* text-align: end; */
 }
+
 .showimg:active {
     border: none;
 }

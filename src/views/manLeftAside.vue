@@ -15,8 +15,7 @@
             </template>
             <el-menu-item-group>
                 <template slot="title">功能列表</template>
-                <el-menu-item index="2-1" v-on:click="kaoqin">考勤管理</el-menu-item>
-                <el-menu-item index="2-2" v-on:click="qingjia">请假审批</el-menu-item>
+                <el-menu-item index="2-1" v-on:click="qingjia">请假审批</el-menu-item>
             </el-menu-item-group>
         </el-submenu>
         <el-submenu index="3">
@@ -26,39 +25,7 @@
             </template>
             <el-menu-item-group>
                 <template slot="title">功能列表</template>
-                <el-menu-item index="3-1" v-on:click="org">员工日程</el-menu-item>
-                <el-menu-item index="3-2" v-on:click="creatorg">会议管理</el-menu-item>
-                <el-menu-item index="3-3" v-on:click="creatorg">记事本</el-menu-item>
-            </el-menu-item-group>
-        </el-submenu>
-        <el-submenu index="4">
-            <template slot="title">
-                <i class="el-icon-menu"></i>
-                <span>财务管理</span>
-            </template>
-            <el-menu-item-group>
-                <template slot="title">功能列表</template>
-                <el-menu-item index="4-1" v-on:click="finance">财务管理</el-menu-item>
-            </el-menu-item-group>
-        </el-submenu>
-        <el-submenu index="5">
-            <template slot="title">
-                <i class="el-icon-menu"></i>
-                <span>项目管理</span>
-            </template>
-            <el-menu-item-group>
-                <template slot="title">功能列表</template>
-                <el-menu-item index="5-1" v-on:click="project">项目管理</el-menu-item>
-            </el-menu-item-group>
-        </el-submenu>
-        <el-submenu index="6">
-            <template slot="title">
-                <i class="el-icon-menu"></i>
-                <span>系统管理</span>
-            </template>
-            <el-menu-item-group>
-                <template slot="title">功能列表</template>
-                <el-menu-item index="6-1" v-on:click="user">用户管理</el-menu-item>
+                <el-menu-item index="3-1" v-on:click="creatorg">记事本</el-menu-item>
             </el-menu-item-group>
         </el-submenu>
 
@@ -66,7 +33,7 @@
 </template>
 <script>
 export default {
-    name: "LeftAside",
+    name: "manLeftAside",
     data: function() {
         return {
             collapsed: false,
@@ -75,7 +42,7 @@ export default {
     },
     methods: {
         mainpage(){
-            this.$router.push({name:'MainPage'});
+            this.$router.push({name:'manMainPage'});
         },
         petlist(){
             this.$router.push({name:'PetList'});
@@ -101,20 +68,14 @@ export default {
         project(){
             this.$router.push({name:'Project'});
         },
-        qingjia(){
-            this.$router.push({name:'qingjia2'});
-        },
         mypost(){
             this.$router.push({name:'MyPost'});
         },
-        kaoqin(){
-            this.$router.push({name:'kaoqin'});
-        },
-        user(){
-            this.$router.push({name:'user'});
+        qingjia(){
+            this.$router.push({name:'qingjia'});
         },
         finance(){
-            this.$router.push({name:'Finance'});
+            this.$router.push({name:'manFinance'});
         }
 
     },
