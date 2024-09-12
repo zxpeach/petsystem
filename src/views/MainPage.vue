@@ -20,17 +20,8 @@
                         </el-carousel>
                     </div>
                     
-                                </div>
-                                </div>
-                            </div>
-                        </el-card>
-                    </el-col>
-                </el-row>
                 </div>
-                            </div>
-                        </el-card>
-                    </el-col>
-                </el-row>
+
                 
 
             </el-main>
