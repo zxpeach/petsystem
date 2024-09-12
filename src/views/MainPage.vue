@@ -52,7 +52,7 @@ export default {
     },
     mounted() {
         const token = localStorage.getItem('token');
-        axios.get('http://10.53.16.146:9000/AttendanceController/attendanceList',{
+        axios.get('http://localhost:9000/AttendanceController/attendanceList',{
             headers: {
                 'token': token
             }
@@ -71,7 +71,7 @@ export default {
     methods: {
         qiandao() {
             const token = localStorage.getItem('token');
-            axios.get('http://10.53.16.146:9000/AttendanceController/attendance',{
+            axios.get('http://localhost:9000/AttendanceController/attendance',{
                 headers: {
                     'token': token
                 }

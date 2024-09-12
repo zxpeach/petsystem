@@ -131,7 +131,7 @@ export default {
     },
     mounted() {
         const token = localStorage.getItem('token');
-        axios.get('http://10.53.16.146:9000/LeaveApprovalController/leaveList',{
+        axios.get('http://localhost:9000/LeaveApprovalController/leaveList',{
             headers: {
                 'token': token
             }
@@ -153,7 +153,7 @@ export default {
         SearchProject() {
             const token = localStorage.getItem('token');
             if (this.selected === 'option1'){
-            axios.get('http://10.53.16.146:9000/LeaveApprovalController/leaveUnapprovedList',{
+            axios.get('http://localhost:9000/LeaveApprovalController/leaveUnapprovedList',{
                 headers: {
                     'token': token
                 }
@@ -184,7 +184,7 @@ export default {
                 projectContent: this.pc,
                 projectState: this.ps,
             };
-            axios.put('http://10.53.16.146:9000/project/add', data,{
+            axios.put('http://localhost:9000/project/add', data,{
                 headers: {
                     'token': token
                 }
@@ -201,7 +201,7 @@ export default {
                     console.error(error);
                     alert('获取信息失败：' + error.message);
                 });
-                axios.get('http://10.53.16.146:9000/project/list',{
+                axios.get('http://localhost:9000/project/list',{
             headers: {
                 'token': token
             }
@@ -227,7 +227,7 @@ export default {
                     leaveId: row.leaveId,
                     state: '已批准',
                 };
-                axios.post('http://10.53.16.146:9000/LeaveApprovalController/leaveApproval', data,{
+                axios.post('http://localhost:9000/LeaveApprovalController/leaveApproval', data,{
                 headers: {
                     'token': token
                 }
@@ -250,7 +250,7 @@ export default {
                     leaveId: row.leaveId,
                     state: '未批准',
                 };
-                axios.post('http://10.53.16.146:9000/LeaveApprovalController/leaveApproval', data,{
+                axios.post('http://localhost:9000/LeaveApprovalController/leaveApproval', data,{
                 headers: {
                     'token': token
                 }
@@ -268,7 +268,7 @@ export default {
                     alert('获取信息失败：' + error.message);
                 });
             }
-            axios.get('http://10.53.16.146:9000/LeaveApprovalController/leaveList',{
+            axios.get('http://localhost:9000/LeaveApprovalController/leaveList',{
             headers: {
                 'token': token
             }

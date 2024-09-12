@@ -130,7 +130,7 @@ export default {
     },
     mounted() {
         const token = localStorage.getItem('token');
-        axios.get('http://10.53.16.146:9000/finance/list',{
+        axios.get('http://localhost:9000/finance/list',{
             headers: {
                 'token': token
             }
@@ -157,7 +157,7 @@ export default {
                 financeType: this.selected,
                 amount: this.amount
             };
-            axios.post('http://10.53.16.146:9000/finance/search', data,{
+            axios.post('http://localhost:9000/finance/search', data,{
                 headers: {
                     'token': token
                 }
@@ -188,7 +188,7 @@ export default {
                 financeDescription: this.ps,
                 projectId: this.pi
             };
-            axios.put('http://10.53.16.146:9000/finance/add', data,{
+            axios.put('http://localhost:9000/finance/add', data,{
                 headers: {
                     'token': token
                 }
@@ -205,7 +205,7 @@ export default {
                     console.error(error);
                     alert('获取信息失败：' + error.message);
                 });
-                axios.get('http://10.53.16.146:9000/finance/list',{
+                axios.get('http://localhost:9000/finance/list',{
             headers: {
                 'token': token
             }
@@ -230,7 +230,7 @@ export default {
                 const data = {
                     projectId: row.projectId,
                 };
-                axios.delete('http://10.53.16.146:9000/finance/delete', data)
+                axios.delete('http://localhost:9000/finance/delete', data)
                 .then((response) => {
                     const { code } = response.data;
                     if (code===1) {
@@ -249,7 +249,7 @@ export default {
                     projectId: row.projectId,
                     userIdList: [this.addname],
                 };
-                axios.put('http://10.53.16.146:9000/finance/addUser', data,{
+                axios.put('http://localhost:9000/finance/addUser', data,{
                 headers: {
                     'token': token
                 }

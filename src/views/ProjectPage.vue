@@ -136,7 +136,7 @@ export default {
     },
     mounted() {
         const token = localStorage.getItem('token');
-        axios.get('http://10.53.16.146:9000/project/list',{
+        axios.get('http://localhost:9000/project/list',{
             headers: {
                 'token': token
             }
@@ -162,7 +162,7 @@ export default {
                 projectContent: this.projectdtl,
                 projectState: this.selected,
             };
-            axios.post('http://10.53.16.146:9000/project/search', data,{
+            axios.post('http://localhost:9000/project/search', data,{
                 headers: {
                     'token': token
                 }
@@ -192,7 +192,7 @@ export default {
                 projectContent: this.pc,
                 projectState: this.ps,
             };
-            axios.put('http://10.53.16.146:9000/project/add', data,{
+            axios.put('http://localhost:9000/project/add', data,{
                 headers: {
                     'token': token
                 }
@@ -209,7 +209,7 @@ export default {
                     console.error(error);
                     alert('获取信息失败：' + error.message);
                 });
-                axios.get('http://10.53.16.146:9000/project/list',{
+                axios.get('http://localhost:9000/project/list',{
             headers: {
                 'token': token
             }
@@ -234,7 +234,7 @@ export default {
                 const data = {
                     projectId: row.projectId,
                 };
-                axios.delete('http://10.53.16.146:9000/project/delete', data)
+                axios.delete('http://localhost:9000/project/delete', data)
                 .then((response) => {
                     const { code } = response.data;
                     if (code===1) {
@@ -253,7 +253,7 @@ export default {
                     projectId: row.projectId,
                     userIdList: [this.addname],
                 };
-                axios.put('http://10.53.16.146:9000/project/addUser', data,{
+                axios.put('http://localhost:9000/project/addUser', data,{
                 headers: {
                     'token': token
                 }

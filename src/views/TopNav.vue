@@ -65,7 +65,7 @@ export default {
         idquit() {
             localStorage.removeItem('token');
             alert('退出成功');
-            location.reload();
+            this.$router.push({ name: 'Login' });
         },
         login() {
             this.$router.push({ name: 'Login' });

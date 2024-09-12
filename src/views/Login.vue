@@ -43,7 +43,7 @@ export default {
                 account: this.account,
                 password: this.password
             };
-            axios.post('http://10.53.16.146:9000/login', data)
+            axios.post('http://localhost:9000/login', data)
                 .then((response) => {
                     const { code, msg, data } = response.data;
                     if (code === 1) {
@@ -53,7 +53,6 @@ export default {
                         const payloadl = tokenl.split('.')[1];
                         const decodedPayloadl = atob(payloadl);
                         const datl = JSON.parse(decodedPayloadl);
-                        alert(datl.authority);
                         alert('登录成功');
                          if (datl.authority === 'user') {
                              this.$router.push('/manMainPage');

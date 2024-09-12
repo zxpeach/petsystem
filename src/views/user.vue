@@ -10,7 +10,7 @@
             <el-main class="main-center">
                 <div style="display: flex; height: 30px; margin-top: 30px; margin-left: 50px;">
                     <label for="id" style=" margin-top: 3px;">用户ID</label>
-                    <input type="text" id="projectname" v-model="id" style="margin-left: 10px; " placeholder="请输入用户ID" />
+                    <input type="number" id="projectname" v-model="id" style="margin-left: 10px; " placeholder="请输入用户ID" />
                     <label for="name" style=" margin-top: 3px;">姓名</label>
                     <input type="text" id="projectname" v-model="name" style="margin-left: 10px; " placeholder="请输入用户姓名" />
                     <label for="projectname" style=" margin-top: 3px;">账户</label>
@@ -46,7 +46,7 @@
                     <el-table-column
                             prop="userEmail"
                             label="邮箱"
-                            width="300">
+                            width="250">
                     </el-table-column>
                     <el-table-column
                             prop="userAuthority"
@@ -143,7 +143,7 @@ export default {
             account: this.account,
             email: this.email
         }
-        axios.post('http://10.53.16.146:9000/UserController/selectUser',data, {
+        axios.post('http://localhost:9000/UserController/selectUser',data, {
             headers: {
                 'token': token
             }
@@ -170,7 +170,7 @@ export default {
             account: this.account,
             email: this.email
         }
-        axios.post('http://10.53.16.146:9000/UserController/selectUser',data, {
+        axios.post('http://localhost:9000/UserController/selectUser',data, {
             headers: {
                 'token': token
             }
@@ -200,7 +200,7 @@ export default {
                 name: this.pc,
                 email: this.ps,
             };
-            axios.post('http://10.53.16.146:9000/UserController/addUser', data,{
+            axios.post('http://localhost:9000/UserController/addUser', data,{
                 headers: {
                     'token': token
                 }
@@ -226,7 +226,7 @@ export default {
                 const data = {
                     id: row.userId,
                 };
-                axios.post('http://10.53.16.146:9000/UserController/deleteUser', data,{
+                axios.post('http://localhost:9000/UserController/deleteUser', data,{
                 headers: {
                     'token': token
                 }
@@ -248,7 +248,7 @@ export default {
                 const data = {
                     id: row.userId,
                 };
-                axios.post('http://10.53.16.146:9000/UserController/resetPassword', data,{
+                axios.post('http://localhost:9000/UserController/resetPassword', data,{
                 headers: {
                     'token': token
                 }
@@ -272,7 +272,7 @@ export default {
             account: this.account,
             email: this.email
         }
-        axios.post('http://10.53.16.146:9000/UserController/selectUser',data, {
+        axios.post('http://localhost:9000/UserController/selectUser',data, {
             headers: {
                 'token': token
             }
